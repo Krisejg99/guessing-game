@@ -3,8 +3,6 @@
 * 
 * 
 * 
-* Steg 1: Shuffle shuffledStudents4
-* Steg 2: Take the frist persons picture in the new shuffled array and display to DOM
 * 
 * 
 * 
@@ -21,7 +19,7 @@ const imageContainer = document.querySelector('#imageContainer');
 let students = [
     {
         name: 'Kristopher',
-        image: 'Kristophers bild',
+        image: 'https://images.wallpapersden.com/image/download/thanos-with-infinity-gauntlet_a2lrbWqUmZqaraWkpJRqZWWtamVl.jpg',
     },
     {
         name: 'Jonas',
@@ -59,25 +57,35 @@ const shuffleArray = (array) => {
     }
 }
 
+const newQuestion = () => {
+    // Make a copy of students
+    const newStudents = students.map(student => student);
+    // Shuffle newStudents (destructive function)
+    shuffleArray(newStudents);
+    // Save the first 4 students AFTER shuffling
+    const shortShuffledStudents = newStudents.slice(0, 4);
 
+    // Display the names of shortShuffledStudents to DOM
+    btnPerson1El.textContent = `${shortShuffledStudents[0].name}`;
+    btnPerson2El.textContent = `${shortShuffledStudents[1].name}`;
+    btnPerson3El.textContent = `${shortShuffledStudents[2].name}`;
+    btnPerson4El.textContent = `${shortShuffledStudents[3].name}`;
 
-// Make a copy of students
-const newStudents = students.map(student => student);
-// Shuffle newStudents (destructive function)
-shuffleArray(newStudents);
-// Save the first 4 students AFTER shuffling
-const shuffledStudents4 = newStudents.slice(0, 4);
+    // Copy shortShuffledStudents
+    const newShortShuffledStudents = shortShuffledStudents.map(student => student);
+    // Shuffle newShortShuffledStudents (destructive function)
+    shuffleArray(newShortShuffledStudents);
+    // Save first image in newShortShuffledStudents
+    const firstImage = newShortShuffledStudents[0].image;
 
-// Display the names of shuffledStudents4 to DOM
-btnPerson1El.textContent = `${shuffledStudents4[0].name}`;
-btnPerson2El.textContent = `${shuffledStudents4[1].name}`;
-btnPerson3El.textContent = `${shuffledStudents4[2].name}`;
-btnPerson4El.textContent = `${shuffledStudents4[3].name}`;
+    // Display the image of the first object in newShortShuffledStudents to the DOM
+    imageContainerEl.innerHTML = `${firstImage}`;
 
-// Copy shuffledStudents4
-const newShuffledStudents4 = shuffledStudents4.map(student => student);
-// Shuffle newStudents4 (destructive function)
-shuffleArray(newShuffledStudents4);
+    // Test. Is true when the person is on the first button
+    console.log(shortShuffledStudents[0].name === newShortShuffledStudents[0].name);
 
-// Display the image of the first object in newShuffledStudents4 to the DOM
-imageContainerEl.innerHTML = `${newShuffledStudents4[0].image}`;
+};
+
+newQuestion();
+
+console.log(students);
