@@ -1,5 +1,9 @@
 /*
 * 
+* Rounds:
+* 
+* 
+* 
 * 
 * 
 * 
@@ -15,6 +19,8 @@ const btnPerson3El = document.querySelector('#btnPerson3');
 const btnPerson4El = document.querySelector('#btnPerson4');
 const imageContainerEl = document.querySelector('#imageContainer');
 
+let points = 0;
+
 // FisherYates random number algorithm
 const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -25,44 +31,80 @@ const shuffleArray = (array) => {
     }
 }
 
-const newQuestion = callback => {
-    // Make a copy of students
-    const newStudents = students.map(student => student);
-    // Shuffle newStudents (destructive function)
-    shuffleArray(newStudents);
-    // Save the first 4 students AFTER shuffling
-    const shortShuffledStudents = newStudents.slice(0, 4);
 
-    // Display the names of shortShuffledStudents to DOM
-    btnPerson1El.textContent = `${shortShuffledStudents[0].name}`;
+
+const newPictureAndNames = () => {
+
+    const newStudents = students.map(student => student);       // Make a copy of students
+    shuffleArray(newStudents);                                  // Shuffle newStudents (destructive function)
+    const shortShuffledStudents = newStudents.slice(0, 4);      // Save the first 4 students AFTER shuffling
+
+    const newShortShuffledStudents = shortShuffledStudents.map(student => student);     // Copy shortShuffledStudents
+    shuffleArray(newShortShuffledStudents);                                             // Shuffle newShortShuffledStudents (destructive function)
+    const firstImage = newShortShuffledStudents[0].image;                               // Save first image in newShortShuffledStudents
+
+    btnPerson1El.textContent = `${shortShuffledStudents[0].name}`;      // Display the names of shortShuffledStudents to DOM
     btnPerson2El.textContent = `${shortShuffledStudents[1].name}`;
     btnPerson3El.textContent = `${shortShuffledStudents[2].name}`;
     btnPerson4El.textContent = `${shortShuffledStudents[3].name}`;
+    imageContainerEl.innerHTML = `<img src="${firstImage}"></img>`;     // Display the image of the first object in newShortShuffledStudents to the DOM
 
-    // Copy shortShuffledStudents
-    const newShortShuffledStudents = shortShuffledStudents.map(student => student);
-    // Shuffle newShortShuffledStudents (destructive function)
-    shuffleArray(newShortShuffledStudents);
-    // Save first image in newShortShuffledStudents
-    const firstImage = newShortShuffledStudents[0].image;
-
-    // Display the image of the first object in newShortShuffledStudents to the DOM
-    imageContainerEl.innerHTML = `<img src="${firstImage}"></img>`;
-
-    // Test. Is true when the person is on the first button
-    const imageNameComparison = shortShuffledStudents[0].name === newShortShuffledStudents[0].name;
-
-    // Call the callback function
-    callback(imageNameComparison);
+    return newShortShuffledStudents[0].name;
 };
 
-// Create a callback function
-newQuestion(comparison => {
+let displayedImage = newPictureAndNames();
+console.log('Picture:', displayedImage);
 
-    if (comparison) {
-        console.log(comparison);
-    }
-    else {
-        console.log('unlucky')
-    }
+guessFormEl.addEventListener('click', e => {
+    e.preventDefault();
+
+    if (e.target.tagName === 'BUTTON') {
+        const clickedStudentName = e.target.textContent
+        // console.log('I clicked:', clickedStudentName);
+
+        if (clickedStudentName === displayedImage) {
+
+            points++;
+            console.log('YEY! +1 point. Points:', points);
+        }
+        else {
+            console.log('No point this round. Points:', points);
+        };
+
+
+
+        displayedImage = newPictureAndNames();
+        console.log('Picture:', displayedImage);
+    };
+
+
+
+
+
+
+
+
+
+
+
+    // console.log('Pictrue:', newQuestion());
+
+    // const clickedStudent = students.find((student) => {
+    //     return student.name === clickedStudentName;
+    // });
+    // console.log("found clicked student", clickedStudent);
+
+
+
+
+    // if (e.target.textContent === newShortShuffledStudents[0].name) {
+    //     points++
+    //     console.log('+1 points');
+    // }
+    // else {
+    //     console.log('no points');
+    // }
+    // console.log('Points:', points);
+
+
 });
