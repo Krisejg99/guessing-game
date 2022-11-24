@@ -18,15 +18,15 @@ const imageContainerEl = document.querySelector('#imageContainer');
 let students = [
     {
         name: 'Kristopher',
-        image: 'https://images.wallpapersden.com/image/download/thanos-with-infinity-gauntlet_a2lrbWqUmZqaraWkpJRqZWWtamVl.jpg',
+        image: 'images/kristopher.jpg',
     },
     {
         name: 'Jonas',
-        image: 'Jonas bild',
+        image: 'images/jonas.jpg',
     },
     {
         name: 'Harald',
-        image: 'Haralds bild',
+        image: 'images/harald.jpg',
     },
     {
         name: 'Joakim',
@@ -78,13 +78,15 @@ const newQuestion = callback => {
     const firstImage = newShortShuffledStudents[0].image;
 
     // Display the image of the first object in newShortShuffledStudents to the DOM
-    // imageContainerEl.innerHTML = `<img src="${firstImage}"></img>`;
+    imageContainerEl.innerHTML = `<img src="${firstImage}"></img>`;
 
     // Test. Is true when the person is on the first button
     const imageNameComparison = shortShuffledStudents[0].name === newShortShuffledStudents[0].name;
 
     // Call the callback function
     callback(imageNameComparison);
+
+    console.log(newShortShuffledStudents)
 
 };
 
