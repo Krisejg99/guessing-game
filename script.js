@@ -18,8 +18,17 @@ const btnPerson2El = document.querySelector('#btnPerson2');
 const btnPerson3El = document.querySelector('#btnPerson3');
 const btnPerson4El = document.querySelector('#btnPerson4');
 const imageContainerEl = document.querySelector('#imageContainer');
+const btnStartGameEl = document.querySelector('#btnStartGame');
+const btnStartGameContainerEl = document.querySelector('#btnStartGameContainer');
+const gameContainerEl = document.querySelector('#gameContainer');
 
 let points = 0;
+
+// Start Game!
+btnStartGameEl.addEventListener('click', e => {
+    btnStartGameContainerEl.classList.add('hide');
+    gameContainerEl.classList.remove('hide');
+})
 
 // FisherYates random number algorithm
 const shuffleArray = (array) => {
@@ -30,8 +39,6 @@ const shuffleArray = (array) => {
         array[j] = temp;
     }
 }
-
-
 
 const newPictureAndNames = () => {
 
@@ -76,35 +83,5 @@ guessFormEl.addEventListener('click', e => {
         displayedImage = newPictureAndNames();
         console.log('Picture:', displayedImage);
     };
-
-
-
-
-
-
-
-
-
-
-
-    // console.log('Pictrue:', newQuestion());
-
-    // const clickedStudent = students.find((student) => {
-    //     return student.name === clickedStudentName;
-    // });
-    // console.log("found clicked student", clickedStudent);
-
-
-
-
-    // if (e.target.textContent === newShortShuffledStudents[0].name) {
-    //     points++
-    //     console.log('+1 points');
-    // }
-    // else {
-    //     console.log('no points');
-    // }
-    // console.log('Points:', points);
-
-
 });
+
