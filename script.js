@@ -14,7 +14,6 @@ const btnPerson2El = document.querySelector('#btnPerson2');
 const btnPerson3El = document.querySelector('#btnPerson3');
 const btnPerson4El = document.querySelector('#btnPerson4');
 const imageContainerEl = document.querySelector('#imageContainer');
-const imageContainer = document.querySelector('#imageContainer');
 
 let students = [
     {
@@ -57,7 +56,7 @@ const shuffleArray = (array) => {
     }
 }
 
-const newQuestion = () => {
+const newQuestion = callback => {
     // Make a copy of students
     const newStudents = students.map(student => student);
     // Shuffle newStudents (destructive function)
@@ -79,13 +78,25 @@ const newQuestion = () => {
     const firstImage = newShortShuffledStudents[0].image;
 
     // Display the image of the first object in newShortShuffledStudents to the DOM
-    imageContainerEl.innerHTML = `${firstImage}`;
+    // imageContainerEl.innerHTML = `<img src="${firstImage}"></img>`;
 
     // Test. Is true when the person is on the first button
-    console.log(shortShuffledStudents[0].name === newShortShuffledStudents[0].name);
+    const imageNameComparison = shortShuffledStudents[0].name === newShortShuffledStudents[0].name;
+
+    // Call the callback function
+    callback(imageNameComparison);
 
 };
 
-newQuestion();
+// Create a callback function
+newQuestion(comparison => {
+
+    if (comparison) {
+        console.log(comparison);
+    }
+    else {
+        console.log('unlucky')
+    }
+});
 
 console.log(students);
