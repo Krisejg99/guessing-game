@@ -15,37 +15,6 @@ const btnPerson3El = document.querySelector('#btnPerson3');
 const btnPerson4El = document.querySelector('#btnPerson4');
 const imageContainerEl = document.querySelector('#imageContainer');
 
-let students = [
-    {
-        name: 'Kristopher',
-        image: 'images/kristopher.jpg',
-    },
-    {
-        name: 'Jonas',
-        image: 'images/jonas.jpg',
-    },
-    {
-        name: 'Harald',
-        image: 'images/harald.jpg',
-    },
-    {
-        name: 'Joakim',
-        image: 'Joakims bild',
-    },
-    {
-        name: 'Patrik',
-        image: 'Patriks bild',
-    },
-    {
-        name: 'Simon',
-        image: 'Simons bild',
-    },
-    {
-        name: 'Viktor',
-        image: 'Viktors bild',
-    },
-];
-
 // FisherYates random number algorithm
 const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -85,9 +54,6 @@ const newQuestion = callback => {
 
     // Call the callback function
     callback(imageNameComparison);
-
-    console.log(newShortShuffledStudents)
-
 };
 
 // Create a callback function
@@ -100,5 +66,3 @@ newQuestion(comparison => {
         console.log('unlucky')
     }
 });
-
-console.log(students);
