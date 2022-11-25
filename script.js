@@ -55,7 +55,6 @@ let shuffledFourStudents = () => {
 const newPictureAndNames = () => {
 
     const studentsFour = shuffledFourStudents();                        // Call shuffledSlicedStudents() and save as variable in here
-
     const newStudentsFour = studentsFour.map(student => student);       // Copy shortShuffledStudents
     shuffleArray(newStudentsFour);                                      // Shuffle newShortShuffledStudents (destructive function)
     const firstImage = newStudentsFour[0].image;                        // Save first image in newShortShuffledStudents
@@ -77,11 +76,11 @@ const setNrOfRounds = number => {
     if (round > number) {
         gameContainerEl.classList.add('hide');
 
-        console.log(number);
+        console.log(points + '/' + (round - 1));
     };
 };
 
-const btnPersonDisabled = (boolean) => {
+const btnPersonDisabled = boolean => {
     btnPerson1El.disabled
         = btnPerson2El.disabled
         = btnPerson3El.disabled
@@ -128,17 +127,16 @@ guessFormEl.addEventListener('click', e => {
             targetAddClass('btn-danger');
         };
 
-        setNrOfRounds(maxRounds);
         btnPersonDisabled(true);
 
         // Delay 1.5 sec before going to next question
         setTimeout(() => {
-
             targetRemoveClass('btn-success', 'btn-danger');
             targetAddClass('btn-light');
+            btnPersonDisabled(false);
+            setNrOfRounds(maxRounds);
             displayedImage = newPictureAndNames().name;
             console.log('Picture:', displayedImage);
-            btnPersonDisabled(false);
         }, 1500);
     };
 });
