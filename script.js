@@ -81,6 +81,13 @@ const setNrOfRounds = number => {
     };
 };
 
+const btnPersonDisabled = (boolean) => {
+    btnPerson1El.disabled
+        = btnPerson2El.disabled
+        = btnPerson3El.disabled
+        = btnPerson4El.disabled = boolean;
+}
+
 // Start Game Button, shows difficulty screen
 btnStartGameEl.addEventListener('click', e => {
     e.preventDefault();
@@ -106,48 +113,32 @@ btnDifficultyContainerEl.addEventListener('click', e => {
 guessFormEl.addEventListener('click', e => {
     e.preventDefault();
     if (e.target.tagName === 'BUTTON') {
+        const targetAddClass = htmlClass => e.target.classList.add(`${htmlClass}`);
+        const targetRemoveClass = htmlClass => e.target.classList.remove(`${htmlClass}`);
 
-        // console.log('round:', round);
+        targetRemoveClass('btn-light');
         round++;
 
-        const clickedStudentName = e.target.textContent
-
-        e.target.classList.remove('btn-light');
-
-        if (clickedStudentName === displayedImage) {
+        if (e.target.textContent === displayedImage) {
+            targetAddClass('btn-success');
             points++;
             console.log('YEY! +1 point. Points:', points);
-
-            e.target.classList.add('btn-success');
-
         }
         else {
-            // console.log('No point this round. Points:', points);
-            e.target.classList.add('btn-danger');
+            targetAddClass('btn-danger');
         };
 
-        console.log(displayedImage);
-
         setNrOfRounds(maxRounds);
-
-        btnPerson1El.disabled
-            = btnPerson2El.disabled
-            = btnPerson3El.disabled
-            = btnPerson4El.disabled = true;
+        btnPersonDisabled(true);
 
         // Delay 1.5 sec before going to next question
         setTimeout(() => {
-            e.target.classList.remove('btn-success');
-            e.target.classList.remove('btn-danger');
-            e.target.classList.add('btn-light');
 
+            targetRemoveClass('btn-success', 'btn-danger');
+            targetAddClass('btn-light');
             displayedImage = newPictureAndNames().name;
             console.log('Picture:', displayedImage);
-
-            btnPerson1El.disabled
-                = btnPerson2El.disabled
-                = btnPerson3El.disabled
-                = btnPerson4El.disabled = false;
+            btnPersonDisabled(false);
         }, 1500);
     };
 });
