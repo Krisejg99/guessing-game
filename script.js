@@ -1,6 +1,6 @@
 /*
 * 
-* Rounds:
+* 
 * 
 * 
 * Gissat rätt ska knappen bli grön
@@ -44,6 +44,43 @@ btnHardEl.value = students.length;
 
 
 
+let shuffledFourStudents = () => {
+    const newStudents = students.map(student => student);               // Make a copy of students
+    shuffleArray(newStudents);                                          // Shuffle newStudents (destructive function)
+    const newShuffledSlicedStudents = newStudents.slice(0, 4);          // Save the first 4 students AFTER shuffling
+    return newShuffledSlicedStudents;
+};
+
+// New round function
+const newPictureAndNames = () => {
+
+    const studentsFour = shuffledFourStudents();                        // Call shuffledSlicedStudents() and save as variable in here
+
+    const newStudentsFour = studentsFour.map(student => student);       // Copy shortShuffledStudents
+    shuffleArray(newStudentsFour);                                      // Shuffle newShortShuffledStudents (destructive function)
+    const firstImage = newStudentsFour[0].image;                        // Save first image in newShortShuffledStudents
+
+    btnPerson1El.textContent = `${studentsFour[0].name}`;      // Display the names of shortShuffledStudents to DOM
+    btnPerson2El.textContent = `${studentsFour[1].name}`;
+    btnPerson3El.textContent = `${studentsFour[2].name}`;
+    btnPerson4El.textContent = `${studentsFour[3].name}`;
+    imageContainerEl.src = firstImage;                                  // Display the image of the first object in newShortShuffledStudents to the DOM   
+
+    return newStudentsFour[0];
+};
+
+let displayedImage = newPictureAndNames().name;
+console.log('Picture:', displayedImage);
+
+// End game when rounds value is more input value from Difficulty Buttons
+const setNrOfRounds = number => {
+    if (round > number) {
+        gameContainerEl.classList.add('hide');
+
+        console.log(number);
+    };
+};
+
 // Start Game Button, shows difficulty screen
 btnStartGameEl.addEventListener('click', e => {
     e.preventDefault();
@@ -51,8 +88,6 @@ btnStartGameEl.addEventListener('click', e => {
     btnStartGameContainerEl.classList.add('hide');
     btnDifficultyContainerEl.classList.remove('hide');
 });
-
-
 
 // Choose Difficulty Buttons, shows game screen
 btnDifficultyContainerEl.addEventListener('click', e => {
@@ -67,69 +102,52 @@ btnDifficultyContainerEl.addEventListener('click', e => {
     };
 });
 
-
-
 // Click a name
 guessFormEl.addEventListener('click', e => {
     e.preventDefault();
     if (e.target.tagName === 'BUTTON') {
 
-        console.log('round:', round);
+        // console.log('round:', round);
         round++;
 
         const clickedStudentName = e.target.textContent
-        // console.log('I clicked:', clickedStudentName);
+
+        e.target.classList.remove('btn-light');
 
         if (clickedStudentName === displayedImage) {
-
             points++;
             console.log('YEY! +1 point. Points:', points);
+
+            e.target.classList.add('btn-success');
+
         }
         else {
-            console.log('No point this round. Points:', points);
+            // console.log('No point this round. Points:', points);
+            e.target.classList.add('btn-danger');
         };
 
-        // setTimeout()
-
-        displayedImage = newPictureAndNames();
-        console.log('Picture:', displayedImage);
+        console.log(displayedImage);
 
         setNrOfRounds(maxRounds);
+
+        btnPerson1El.disabled
+            = btnPerson2El.disabled
+            = btnPerson3El.disabled
+            = btnPerson4El.disabled = true;
+
+        // Delay 1.5 sec before going to next question
+        setTimeout(() => {
+            e.target.classList.remove('btn-success');
+            e.target.classList.remove('btn-danger');
+            e.target.classList.add('btn-light');
+
+            displayedImage = newPictureAndNames().name;
+            console.log('Picture:', displayedImage);
+
+            btnPerson1El.disabled
+                = btnPerson2El.disabled
+                = btnPerson3El.disabled
+                = btnPerson4El.disabled = false;
+        }, 1500);
     };
 });
-
-
-
-// New round function
-const newPictureAndNames = () => {
-
-    const newStudents = students.map(student => student);       // Make a copy of students
-    shuffleArray(newStudents);                                  // Shuffle newStudents (destructive function)
-    const shortShuffledStudents = newStudents.slice(0, 4);      // Save the first 4 students AFTER shuffling
-
-    const newShortShuffledStudents = shortShuffledStudents.map(student => student);     // Copy shortShuffledStudents
-    shuffleArray(newShortShuffledStudents);                                             // Shuffle newShortShuffledStudents (destructive function)
-    const firstImage = newShortShuffledStudents[0].image;                               // Save first image in newShortShuffledStudents
-
-    btnPerson1El.textContent = `${shortShuffledStudents[0].name}`;      // Display the names of shortShuffledStudents to DOM
-    btnPerson2El.textContent = `${shortShuffledStudents[1].name}`;
-    btnPerson3El.textContent = `${shortShuffledStudents[2].name}`;
-    btnPerson4El.textContent = `${shortShuffledStudents[3].name}`;
-    imageContainerEl.src = firstImage;                                  // Display the image of the first object in newShortShuffledStudents to the DOM   
-
-    return newShortShuffledStudents[0].name;
-};
-
-let displayedImage = newPictureAndNames();
-// console.log('Picture:', displayedImage);
-
-
-
-// End game when rounds value is more input value from Difficulty Buttons
-const setNrOfRounds = number => {
-    if (round > number) {
-        gameContainerEl.classList.add('hide');
-
-        console.log(number);
-    };
-};
