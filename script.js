@@ -3,8 +3,8 @@
 * Rounds:
 * 
 * 
-* 
-* 
+* Gissat rätt ska knappen bli grön
+* Efter 1 sekund ska man gå vidare
 * 
 * 
 * 
@@ -21,14 +21,48 @@ const imageContainerEl = document.querySelector('#imageContainer');
 const btnStartGameEl = document.querySelector('#btnStartGame');
 const btnStartGameContainerEl = document.querySelector('#btnStartGameContainer');
 const gameContainerEl = document.querySelector('#gameContainer');
+const btnDifficultyContainerEl = document.querySelector('#btnDifficultyContainer');
+const btnEasyEl = document.querySelector('#btnEasy');
+const btnMediumEl = document.querySelector('#btnMedium');
+const btnHardEl = document.querySelector('#btnHard');
+
+
 
 let points = 0;
+let maxRounds;
+let round = 1;
 
-// Start Game!
+
+
+// Start Game Button, show the defficulty screen
 btnStartGameEl.addEventListener('click', e => {
+    e.preventDefault();
+
     btnStartGameContainerEl.classList.add('hide');
+    btnDifficultyContainerEl.classList.remove('hide');
+});
+
+
+// Difficulty Buttons, show the game interface
+const showGame = () => {
+    btnDifficultyContainerEl.classList.add('hide');
     gameContainerEl.classList.remove('hide');
-})
+};
+
+
+
+// 
+const setNrOfRounds = buttonValue => {
+    if (round > buttonValue) {
+        gameContainerEl.classList.add('hide');
+
+        console.log(buttonValue);
+    };
+};
+
+
+
+
 
 // FisherYates random number algorithm
 const shuffleArray = (array) => {
@@ -39,6 +73,8 @@ const shuffleArray = (array) => {
         array[j] = temp;
     }
 }
+
+
 
 const newPictureAndNames = () => {
 
@@ -54,18 +90,23 @@ const newPictureAndNames = () => {
     btnPerson2El.textContent = `${shortShuffledStudents[1].name}`;
     btnPerson3El.textContent = `${shortShuffledStudents[2].name}`;
     btnPerson4El.textContent = `${shortShuffledStudents[3].name}`;
-    imageContainerEl.innerHTML = `<img src="${firstImage}"></img>`;     // Display the image of the first object in newShortShuffledStudents to the DOM
+    imageContainerEl.src = firstImage;                                  // Display the image of the first object in newShortShuffledStudents to the DOM   
 
     return newShortShuffledStudents[0].name;
 };
+
+
 
 let displayedImage = newPictureAndNames();
 console.log('Picture:', displayedImage);
 
 guessFormEl.addEventListener('click', e => {
     e.preventDefault();
-
     if (e.target.tagName === 'BUTTON') {
+
+        console.log('round:', round);
+        round++;
+
         const clickedStudentName = e.target.textContent
         // console.log('I clicked:', clickedStudentName);
 
@@ -78,10 +119,25 @@ guessFormEl.addEventListener('click', e => {
             console.log('No point this round. Points:', points);
         };
 
-
+        // setTimeout()
 
         displayedImage = newPictureAndNames();
         console.log('Picture:', displayedImage);
+
+        setNrOfRounds(maxRounds);
     };
 });
 
+
+
+// Chose difficulty
+btnDifficultyContainerEl.addEventListener('click', e => {
+    e.preventDefault();
+
+    if (e.target.tagName === 'BUTTON') {
+        showGame();
+
+        maxRounds = Number(e.target.value);
+        console.log('maxRounds:', maxRounds);
+    };
+});

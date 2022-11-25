@@ -13,15 +13,20 @@
 <body class="bg-dark text-white">
     <h1 class="mb-5">Guess the classmate</h1>
 
-    <div id="btnStartGameContainer">
+    <form class="btn-container" id="btnStartGameContainer">
         <button class="btn btn-danger" id="btnStartGame">Start Game</button>
-    </div>
+    </form>
 
+    <form class="btn-container hide" id="btnDifficultyContainer">
+        <button class="btn btn-light" id="btnEasy" value="10">Short</button>
+        <button class="btn btn-warning" id="btnMedium" value="20">Medium</button>
+        <button class="btn btn-danger" id="btnHard" value="">Long</button>
+    </form>
+    
     <div class="container hide" id="gameContainer">
         <h2>Who is this?</h2>
 
-        <div id="imageContainer">
-        </div>
+        <img src="assets/images/question-mark.jpg" alt="" id="imageContainer">
 
         <form id="guessForm">
             <button class="btn btn-primary" id="btnPerson1"></button>

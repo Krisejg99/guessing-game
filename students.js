@@ -28,6 +28,10 @@ const students = [
         image: "assets/images/students/arden_haldorson.jpg",
     },
     {
+        name: "Asenakew Zegeye",
+        image: "assets/images/students/asenakew_zegeye.jpg",
+    },
+    {
         name: "Astrid Lindfors",
         image: "assets/images/students/astrid_lindfors.jpg",
     },
@@ -90,6 +94,10 @@ const students = [
     {
         name: "Linus Ohlander",
         image: "assets/images/students/linus_ohlander.jpg",
+    },
+    {
+        name: "Louise Keinström",
+        image: "assets/images/students/louise_keinstrom.jpg",
     },
     {
         name: "Louise Murray",
@@ -167,15 +175,7 @@ const missing_students = [
         image: null,
     },
     {
-        name: "Asenakew Zegeye",
-        image: null,
-    },
-    {
         name: "Gunnar Omander",
-        image: null,
-    },
-    {
-        name: "Louise Keinström",
         image: null,
     },
     {
