@@ -108,6 +108,7 @@ btnDifficultyContainerEl.addEventListener('click', e => {
     };
 });
 
+// Found a bug when i click the right answer, I get a point, but the button sometimes becomes red instead of green.
 // Click a name
 guessFormEl.addEventListener('click', e => {
     e.preventDefault();
