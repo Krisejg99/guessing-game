@@ -26,44 +26,6 @@ const btnEasyEl = document.querySelector('#btnEasy');
 const btnMediumEl = document.querySelector('#btnMedium');
 const btnHardEl = document.querySelector('#btnHard');
 
-
-
-let points = 0;
-let maxRounds;
-let round = 1;
-
-
-
-// Start Game Button, show the defficulty screen
-btnStartGameEl.addEventListener('click', e => {
-    e.preventDefault();
-
-    btnStartGameContainerEl.classList.add('hide');
-    btnDifficultyContainerEl.classList.remove('hide');
-});
-
-
-// Difficulty Buttons, show the game interface
-const showGame = () => {
-    btnDifficultyContainerEl.classList.add('hide');
-    gameContainerEl.classList.remove('hide');
-};
-
-
-
-// 
-const setNrOfRounds = buttonValue => {
-    if (round > buttonValue) {
-        gameContainerEl.classList.add('hide');
-
-        console.log(buttonValue);
-    };
-};
-
-
-
-
-
 // FisherYates random number algorithm
 const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -74,32 +36,40 @@ const shuffleArray = (array) => {
     }
 }
 
+let points = 0;
+let maxRounds;
+let round = 1;
 
-
-const newPictureAndNames = () => {
-
-    const newStudents = students.map(student => student);       // Make a copy of students
-    shuffleArray(newStudents);                                  // Shuffle newStudents (destructive function)
-    const shortShuffledStudents = newStudents.slice(0, 4);      // Save the first 4 students AFTER shuffling
-
-    const newShortShuffledStudents = shortShuffledStudents.map(student => student);     // Copy shortShuffledStudents
-    shuffleArray(newShortShuffledStudents);                                             // Shuffle newShortShuffledStudents (destructive function)
-    const firstImage = newShortShuffledStudents[0].image;                               // Save first image in newShortShuffledStudents
-
-    btnPerson1El.textContent = `${shortShuffledStudents[0].name}`;      // Display the names of shortShuffledStudents to DOM
-    btnPerson2El.textContent = `${shortShuffledStudents[1].name}`;
-    btnPerson3El.textContent = `${shortShuffledStudents[2].name}`;
-    btnPerson4El.textContent = `${shortShuffledStudents[3].name}`;
-    imageContainerEl.src = firstImage;                                  // Display the image of the first object in newShortShuffledStudents to the DOM   
-
-    return newShortShuffledStudents[0].name;
-};
+btnHardEl.value = students.length;
 
 
 
-let displayedImage = newPictureAndNames();
-console.log('Picture:', displayedImage);
+// Start Game Button, shows difficulty screen
+btnStartGameEl.addEventListener('click', e => {
+    e.preventDefault();
 
+    btnStartGameContainerEl.classList.add('hide');
+    btnDifficultyContainerEl.classList.remove('hide');
+});
+
+
+
+// Choose Difficulty Buttons, shows game screen
+btnDifficultyContainerEl.addEventListener('click', e => {
+    e.preventDefault();
+
+    if (e.target.tagName === 'BUTTON') {
+        btnDifficultyContainerEl.classList.add('hide');
+        gameContainerEl.classList.remove('hide');
+
+        maxRounds = Number(e.target.value);
+        console.log('maxRounds:', maxRounds);
+    };
+});
+
+
+
+// Click a name
 guessFormEl.addEventListener('click', e => {
     e.preventDefault();
     if (e.target.tagName === 'BUTTON') {
@@ -130,14 +100,36 @@ guessFormEl.addEventListener('click', e => {
 
 
 
-// Chose difficulty
-btnDifficultyContainerEl.addEventListener('click', e => {
-    e.preventDefault();
+// New round function
+const newPictureAndNames = () => {
 
-    if (e.target.tagName === 'BUTTON') {
-        showGame();
+    const newStudents = students.map(student => student);       // Make a copy of students
+    shuffleArray(newStudents);                                  // Shuffle newStudents (destructive function)
+    const shortShuffledStudents = newStudents.slice(0, 4);      // Save the first 4 students AFTER shuffling
 
-        maxRounds = Number(e.target.value);
-        console.log('maxRounds:', maxRounds);
+    const newShortShuffledStudents = shortShuffledStudents.map(student => student);     // Copy shortShuffledStudents
+    shuffleArray(newShortShuffledStudents);                                             // Shuffle newShortShuffledStudents (destructive function)
+    const firstImage = newShortShuffledStudents[0].image;                               // Save first image in newShortShuffledStudents
+
+    btnPerson1El.textContent = `${shortShuffledStudents[0].name}`;      // Display the names of shortShuffledStudents to DOM
+    btnPerson2El.textContent = `${shortShuffledStudents[1].name}`;
+    btnPerson3El.textContent = `${shortShuffledStudents[2].name}`;
+    btnPerson4El.textContent = `${shortShuffledStudents[3].name}`;
+    imageContainerEl.src = firstImage;                                  // Display the image of the first object in newShortShuffledStudents to the DOM   
+
+    return newShortShuffledStudents[0].name;
+};
+
+let displayedImage = newPictureAndNames();
+// console.log('Picture:', displayedImage);
+
+
+
+// End game when rounds value is more input value from Difficulty Buttons
+const setNrOfRounds = number => {
+    if (round > number) {
+        gameContainerEl.classList.add('hide');
+
+        console.log(number);
     };
-});
+};
