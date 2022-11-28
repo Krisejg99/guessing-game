@@ -10,14 +10,14 @@
     <!-- Bootstrap 5.2 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
-<body class="bg-dark text-white">
+<body class="bg-dark text-white mt-3">
     <h1 class="mb-5">Guess the classmate</h1>
 
-    <form class="btn-container" id="btnStartGameContainer">
+    <form class="start-game-form" id="startGameForm">
         <button class="btn btn-danger" id="btnStartGame">Start Game</button>
     </form>
 
-    <form class="btn-container hide" id="btnDifficultyContainer">
+    <form class="difficulty-form hide" id="difficultyForm">
         <button class="btn btn-light" id="btnEasy" value="10">Easy (10)</button>
         <button class="btn btn-warning" id="btnMedium" value="20">Medium (20)</button>
         <button class="btn btn-danger" id="btnHard" value="">Hard (All)</button>
@@ -26,15 +26,23 @@
     <div class="container hide" id="gameContainer">
         <h2>Who is this?</h2>
 
-        <img src="assets/images/question-mark.jpg" alt="" id="imageContainer">
+        <img src="assets/images/question-mark.jpg" alt="picture of classmate" id="image" class="image mt-0">
 
-        <form id="guessForm">
+        <form id="guessForm" class="guess-form">
             <button class="btn btn-light" id="btnPerson1"></button>
             <button class="btn btn-light" id="btnPerson2"></button>
             <button class="btn btn-light" id="btnPerson3"></button>
             <button class="btn btn-light" id="btnPerson4"></button>
         </form>
+    </div>
 
+    <div id="scoreboard" class="scoreboard hide">
+        <h2 id="score" class="score">3 / 10</h2>
+
+        <form id="playAgainForm">
+            <button class="btn btn-success" id="btnPlayAgain">Play Again!</button>
+            <button class="btn btn-danger" id="btnQuit">Quit</button>
+        </form>
     </div>
 
     <script src="students.js"></script>

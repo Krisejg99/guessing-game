@@ -7,7 +7,8 @@ body {
     justify-content: center;
 }
 
-.btn-container {
+.difficulty-form,
+.start-game-form {
     margin-top: 30vh;
     width: 250px;
     display: flex;
@@ -22,7 +23,7 @@ body {
     align-items: center;
 }
 
-#guessForm {
+.guess-form {
     max-width: 200px;
     display: flex;
     flex-wrap: wrap;
@@ -35,54 +36,55 @@ body {
     height: 65px;
 }
 
-.hide {
+body .hide {
     display: none;
 }
 
-#imageContainer {
+.score {
+    font-size: 4rem;
+    margin-bottom: 4rem;
+}
+
+.scoreboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10vh;
+}
+
+.image {
     width: 300px;
     height: 300px;
     margin: 1rem;
 }
 
-img {
-    width: 300px;
-}
-
 @media screen and (min-width: 350px) {
-    #imageContainer {
+    .image {
         width: 350px;
         height: 350px;
-    }
-
-    img {
-        width: 350px;
     }
 }
 
 @media screen and (min-width: 500px) {
-    #imageContainer {
+    .image {
         width: 400px;
         height: 400px;
     }
 
-    img {
-        width: 400px;
-    }
-
-    #guessForm {
+    .guess-form {
         max-width: 500px;
     }
 }
 
 @media screen and (min-width: 725px) {
-    .btn-container {
+    .difficulty-form,
+    .start-game-form {
         width: 100%;
     }
 }
 
 @media screen and (min-width: 1000px) {
-    #guessForm {
+    .guess-form {
         max-width: 1000px;
     }
 }

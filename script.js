@@ -1,13 +1,8 @@
 /*
-* Bugg:
-* Found a bug when i click the right answer on the same spot i got the answer wrong last time, I get a point, but the button sometimes becomes red instead of green.
-* So if I clicked button 1 and it was wrong, and during the next question I click button 1 again and it was the right answer, it turns red.
-* Om jag tidigare fårr rött på knappen så kan inte inte bli göre för resten av spelet.
 * 
-* Gissat rätt ska knappen bli grön
-* Efter 1 sekund ska man gå vidare
 * 
-* Instead of taking the 4 first from array to DOM, I take just the first one to picture and push to an array. Then i take 3 other random from original array and push to the same array. Then I have an array with 4, but the answer will always be different.
+* 
+* 
 * 
 * 
 * 
@@ -18,14 +13,19 @@ const btnPerson1El = document.querySelector('#btnPerson1');
 const btnPerson2El = document.querySelector('#btnPerson2');
 const btnPerson3El = document.querySelector('#btnPerson3');
 const btnPerson4El = document.querySelector('#btnPerson4');
-const imageContainerEl = document.querySelector('#imageContainer');
+const imageEl = document.querySelector('#image');
 const btnStartGameEl = document.querySelector('#btnStartGame');
-const btnStartGameContainerEl = document.querySelector('#btnStartGameContainer');
+const startGameFormEl = document.querySelector('#startGameForm');
 const gameContainerEl = document.querySelector('#gameContainer');
-const btnDifficultyContainerEl = document.querySelector('#btnDifficultyContainer');
+const difficultyFormEl = document.querySelector('#difficultyForm');
 const btnEasyEl = document.querySelector('#btnEasy');
 const btnMediumEl = document.querySelector('#btnMedium');
 const btnHardEl = document.querySelector('#btnHard');
+const scoreEl = document.querySelector('#score');
+const scoreboardEl = document.querySelector('#scoreboard');
+const playAgainFormEl = document.querySelector('#playAgainForm');
+const btnPlayAgainEl = document.querySelector('#btnPlayAgain');
+const btnQuitEl = document.querySelector('#btnQuit');
 
 // FisherYates random number algorithm
 const shuffleArray = (array) => {
@@ -50,7 +50,7 @@ let usedNames = [];
 const getFirstStudent = () => {
     shuffleArray(newStudents);
     currentRoundNames.push(newStudents[0]);
-    imageContainerEl.src = newStudents[0].image;
+    imageEl.src = newStudents[0].image;
     return newStudents[0];
 };
 
@@ -84,7 +84,9 @@ let displayedImage = getFirstStudent();
 const checkRound = number => {
     if (round > number) {
         gameContainerEl.classList.add('hide');
+        scoreboardEl.classList.remove('hide')
 
+        scoreEl.textContent = `${points} / ${round - 1}`;
         console.log(points + '/' + (round - 1));
     };
 };
@@ -95,26 +97,41 @@ const btnPersonDisabled = boolean => {
         = btnPerson3El.disabled
         = btnPerson4El.disabled = boolean;
 }
-
 // Start Game Button, shows difficulty screen
 btnStartGameEl.addEventListener('click', e => {
     e.preventDefault();
 
-    btnStartGameContainerEl.classList.add('hide');
-    btnDifficultyContainerEl.classList.remove('hide');
+    startGameFormEl.classList.add('hide');
+    difficultyFormEl.classList.remove('hide');
 });
 
 // Choose Difficulty Buttons, shows game screen
-btnDifficultyContainerEl.addEventListener('click', e => {
+difficultyFormEl.addEventListener('click', e => {
     e.preventDefault();
 
     if (e.target.tagName === 'BUTTON') {
-        btnDifficultyContainerEl.classList.add('hide');
+        difficultyFormEl.classList.add('hide');
         gameContainerEl.classList.remove('hide');
 
         maxRounds = Number(e.target.value);
         newQuestion();
     };
+});
+
+btnPlayAgainEl.addEventListener('click', e => {
+    e.preventDefault();
+
+    scoreboardEl.classList.add('hide');
+    startGameFormEl.classList.add('hide');
+    difficultyFormEl.classList.remove('hide');
+});
+
+btnQuitEl.addEventListener('click', e => {
+    e.preventDefault();
+
+    scoreboardEl.classList.add('hide');
+    startGameFormEl.classList.remove('hide');
+
 });
 
 // Found a bug when i click the right answer, I get a point, but the button sometimes becomes red instead of green.
