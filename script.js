@@ -45,7 +45,22 @@ let round = 1;
 let newStudents = students.map(student => student);
 shuffleArray(newStudents);
 let currentRoundNames = [];
-let usedNames = [];
+// let usedNames = [];
+// let highscoresEasy = []; // Push in after easy round and display highscoreEasy at end.
+// let highscoresMedium = [];
+// let highscoresHard = [];
+
+// // eller använd filter() på en gemensam array:
+// let highscores = [
+//     {
+//         highscore: 7 + '/' + 10,
+//         gamemode: 'Easy',
+//     },
+//     {
+//         highscore: 32 + '/' + 41,
+//         gamemode: 'Hard',
+//     },
+// ];
 
 const getFirstStudent = () => {
     shuffleArray(newStudents);
@@ -88,6 +103,9 @@ const checkRound = number => {
 
         scoreEl.textContent = `${points} / ${round - 1}`;
         console.log(points + '/' + (round - 1));
+
+        points = 0;
+        round = 1;
     };
 };
 
