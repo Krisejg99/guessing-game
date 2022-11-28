@@ -42,49 +42,43 @@ btnHardEl.value = students.length;
 let points = 0;
 let maxRounds;
 let round = 1;
-
 let newStudents = students.map(student => student);
 shuffleArray(newStudents);
 let currentRoundNames = [];
 let usedNames = [];
 
-const getFirstName = () => {
+const getFirstStudent = () => {
     shuffleArray(newStudents);
     currentRoundNames.push(newStudents[0]);
-    imageContainerEl.src = newStudents[0].image;                                  // Display the image of the first object in newShortShuffledStudents to the DOM  
-    // console.log(newStudents[0]);
+    imageContainerEl.src = newStudents[0].image;
     return newStudents[0];
 };
 
-const getThreeNames = () => {
+const getThreeStudents = () => {
     shuffleArray(newStudents);
-    let top3 = [];
+    // let top3 = [];
 
     newStudents.forEach(student => {
-        if (currentRoundNames.length < 4) {
-            if (!currentRoundNames.includes(student)) {
-                currentRoundNames.push(student);
-                top3.push(student)
-            };
+        if (currentRoundNames.length < 4 && !currentRoundNames.includes(student)) {
+            currentRoundNames.push(student);
+            // top3.push(student)
         };
     });
-    // console.log(top3);
-    return top3;
+    // return top3;
 };
 
 const newQuestion = () => {
-    displayedImage = getFirstName();
-    getThreeNames();
+    displayedImage = getFirstStudent();
+    getThreeStudents();
     shuffleArray(currentRoundNames);
-    // console.log(currentRoundNames);
 
-    btnPerson1El.textContent = `${currentRoundNames[0].name}`;               // Display the names of shortShuffledStudents to DOM
+    btnPerson1El.textContent = `${currentRoundNames[0].name}`;
     btnPerson2El.textContent = `${currentRoundNames[1].name}`;
     btnPerson3El.textContent = `${currentRoundNames[2].name}`;
     btnPerson4El.textContent = `${currentRoundNames[3].name}`;
 };
 
-let displayedImage = getFirstName();
+let displayedImage = getFirstStudent();
 
 // End game when rounds value is more than input value from Difficulty Buttons
 const checkRound = number => {
@@ -119,8 +113,6 @@ btnDifficultyContainerEl.addEventListener('click', e => {
         gameContainerEl.classList.remove('hide');
 
         maxRounds = Number(e.target.value);
-        // console.log('maxRounds:', maxRounds);
-
         newQuestion();
     };
 });
@@ -130,30 +122,27 @@ btnDifficultyContainerEl.addEventListener('click', e => {
 guessFormEl.addEventListener('click', e => {
     e.preventDefault();
     if (e.target.tagName === 'BUTTON') {
-        const targetAddClass = htmlClass => e.target.classList.add(`${htmlClass}`);
-        const targetRemoveClass = htmlClass => e.target.classList.remove(`${htmlClass}`);
-
-        targetRemoveClass('btn-light');
+        e.target.classList.remove('btn-light');
         round++;
 
         console.log('Img:', displayedImage.name);
         console.log('I clicked:', e.target.textContent);
 
         if (e.target.textContent === displayedImage.name) {
-            targetAddClass('btn-success');
+            e.target.classList.add('btn-success');
             points++;
             console.log('YEY! +1 point. Points:', points);
         }
         else {
-            targetAddClass('btn-danger');
+            e.target.classList.add('btn-danger');
         };
 
         btnPersonDisabled(true);
 
         // Delay 1.5 sec before going to next question
         setTimeout(() => {
-            targetRemoveClass('btn-success', 'btn-danger');
-            targetAddClass('btn-light');
+            e.target.classList.remove('btn-success', 'btn-danger');
+            e.target.classList.add('btn-light');
             btnPersonDisabled(false);
             checkRound(maxRounds);
             currentRoundNames = [];
