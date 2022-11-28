@@ -1,12 +1,13 @@
 /*
-* 
-* 
-* 
+* Bugg:
+* Found a bug when i click the right answer on the same spot i got the answer wrong last time, I get a point, but the button sometimes becomes red instead of green.
+* So if I clicked button 1 and it was wrong, and during the next question I click button 1 again and it was the right answer, it turns red.
+* Om jag tidigare fårr rött på knappen så kan inte inte bli göre för resten av spelet.
 * 
 * Gissat rätt ska knappen bli grön
 * Efter 1 sekund ska man gå vidare
 * 
-* 
+* Instead of taking the 4 first from array to DOM, I take just the first one to picture and push to an array. Then i take 3 other random from original array and push to the same array. Then I have an array with 4, but the answer will always be different.
 * 
 * 
 * 
@@ -36,43 +37,93 @@ const shuffleArray = (array) => {
     }
 }
 
+btnHardEl.value = students.length;
+
 let points = 0;
 let maxRounds;
 let round = 1;
 
-btnHardEl.value = students.length;
+let newStudents = students.map(student => student);
+shuffleArray(newStudents);
+let currentRoundNames = [];
+let usedNames = [];
 
 
 
-let shuffledFourStudents = () => {
-    const newStudents = students.map(student => student);               // Make a copy of students
-    shuffleArray(newStudents);                                          // Shuffle newStudents (destructive function)
-    const newShuffledSlicedStudents = newStudents.slice(0, 4);          // Save the first 4 students AFTER shuffling
-    return newShuffledSlicedStudents;
+const getFirstName = () => {
+    shuffleArray(newStudents);
+    currentRoundNames.push(newStudents[0]);
+    imageContainerEl.src = newStudents[0].image;                                  // Display the image of the first object in newShortShuffledStudents to the DOM  
+    // console.log(newStudents[0]);
+    return newStudents[0];
 };
 
-// New round function
-const newPictureAndNames = () => {
+const getThreeNames = () => {
+    shuffleArray(newStudents);
+    let top3 = [];
 
-    const studentsFour = shuffledFourStudents();                        // Call shuffledSlicedStudents() and save as variable in here
-    const newStudentsFour = studentsFour.map(student => student);       // Copy shortShuffledStudents
-    shuffleArray(newStudentsFour);                                      // Shuffle newShortShuffledStudents (destructive function)
-    const firstImage = newStudentsFour[0].image;                        // Save first image in newShortShuffledStudents
-
-    btnPerson1El.textContent = `${studentsFour[0].name}`;      // Display the names of shortShuffledStudents to DOM
-    btnPerson2El.textContent = `${studentsFour[1].name}`;
-    btnPerson3El.textContent = `${studentsFour[2].name}`;
-    btnPerson4El.textContent = `${studentsFour[3].name}`;
-    imageContainerEl.src = firstImage;                                  // Display the image of the first object in newShortShuffledStudents to the DOM   
-
-    return newStudentsFour[0];
+    newStudents.forEach(student => {
+        if (currentRoundNames.length < 4) {
+            if (!currentRoundNames.includes(student)) {
+                currentRoundNames.push(student);
+                top3.push(student)
+            };
+        };
+    });
+    // console.log(top3);
+    return top3;
 };
 
-let displayedImage = newPictureAndNames().name;
-console.log('Picture:', displayedImage);
 
-// End game when rounds value is more input value from Difficulty Buttons
-const setNrOfRounds = number => {
+
+const newQuestion = () => {
+    displayedImage = getFirstName();
+    getThreeNames();
+    shuffleArray(currentRoundNames);
+    // console.log(currentRoundNames);
+
+    btnPerson1El.textContent = `${currentRoundNames[0].name}`;               // Display the names of shortShuffledStudents to DOM
+    btnPerson2El.textContent = `${currentRoundNames[1].name}`;
+    btnPerson3El.textContent = `${currentRoundNames[2].name}`;
+    btnPerson4El.textContent = `${currentRoundNames[3].name}`;
+};
+
+let displayedImage = getFirstName();
+
+
+
+
+// const shuffledFourStudents = () => {
+//     const newStudents = students.map(student => student);               // Make a copy of students
+//     shuffleArray(newStudents);                                          // Shuffle newStudents (destructive function)
+//     const newShuffledSlicedStudents = newStudents.slice(0, 4);          // Save the first 4 students AFTER shuffling
+//     return newShuffledSlicedStudents;
+// };
+
+// // New round function
+// const newPictureAndNames = () => {
+
+//     const studentsFour = shuffledFourStudents();                        // Call shuffledSlicedStudents() and save as variable in here
+//     const newStudentsFour = studentsFour.map(student => student);       // Copy shortShuffledStudents
+//     shuffleArray(newStudentsFour);                                      // Shuffle newShortShuffledStudents (destructive function)
+//     const firstImage = newStudentsFour[0].image;                        // Save first image in newShortShuffledStudents
+
+//     btnPerson1El.textContent = `${studentsFour[0].name}`;               // Display the names of shortShuffledStudents to DOM
+//     btnPerson2El.textContent = `${studentsFour[1].name}`;
+//     btnPerson3El.textContent = `${studentsFour[2].name}`;
+//     btnPerson4El.textContent = `${studentsFour[3].name}`;
+//     imageContainerEl.src = firstImage;                                  // Display the image of the first object in newShortShuffledStudents to the DOM   
+
+//     usedNames.push(newStudentsFour[0]);
+
+//     return newStudentsFour[0];
+// };
+
+// let displayedImage = newPictureAndNames();
+// console.log('Picture:', displayedImage.name);
+
+// End game when rounds value is more than input value from Difficulty Buttons
+const checkRound = number => {
     if (round > number) {
         gameContainerEl.classList.add('hide');
 
@@ -104,7 +155,9 @@ btnDifficultyContainerEl.addEventListener('click', e => {
         gameContainerEl.classList.remove('hide');
 
         maxRounds = Number(e.target.value);
-        console.log('maxRounds:', maxRounds);
+        // console.log('maxRounds:', maxRounds);
+
+        newQuestion();
     };
 });
 
@@ -119,7 +172,10 @@ guessFormEl.addEventListener('click', e => {
         targetRemoveClass('btn-light');
         round++;
 
-        if (e.target.textContent === displayedImage) {
+        console.log('Img:', displayedImage.name);
+        console.log('I clicked:', e.target.textContent);
+
+        if (e.target.textContent === displayedImage.name) {
             targetAddClass('btn-success');
             points++;
             console.log('YEY! +1 point. Points:', points);
@@ -135,9 +191,11 @@ guessFormEl.addEventListener('click', e => {
             targetRemoveClass('btn-success', 'btn-danger');
             targetAddClass('btn-light');
             btnPersonDisabled(false);
-            setNrOfRounds(maxRounds);
-            displayedImage = newPictureAndNames().name;
-            console.log('Picture:', displayedImage);
+            checkRound(maxRounds);
+            // displayedImage = newPictureAndNames();
+            // console.log('Picture:', displayedImage.name);
+            currentRoundNames = [];
+            newQuestion();
         }, 1500);
     };
 });
