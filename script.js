@@ -48,8 +48,6 @@ shuffleArray(newStudents);
 let currentRoundNames = [];
 let usedNames = [];
 
-
-
 const getFirstName = () => {
     shuffleArray(newStudents);
     currentRoundNames.push(newStudents[0]);
@@ -74,8 +72,6 @@ const getThreeNames = () => {
     return top3;
 };
 
-
-
 const newQuestion = () => {
     displayedImage = getFirstName();
     getThreeNames();
@@ -89,38 +85,6 @@ const newQuestion = () => {
 };
 
 let displayedImage = getFirstName();
-
-
-
-
-// const shuffledFourStudents = () => {
-//     const newStudents = students.map(student => student);               // Make a copy of students
-//     shuffleArray(newStudents);                                          // Shuffle newStudents (destructive function)
-//     const newShuffledSlicedStudents = newStudents.slice(0, 4);          // Save the first 4 students AFTER shuffling
-//     return newShuffledSlicedStudents;
-// };
-
-// // New round function
-// const newPictureAndNames = () => {
-
-//     const studentsFour = shuffledFourStudents();                        // Call shuffledSlicedStudents() and save as variable in here
-//     const newStudentsFour = studentsFour.map(student => student);       // Copy shortShuffledStudents
-//     shuffleArray(newStudentsFour);                                      // Shuffle newShortShuffledStudents (destructive function)
-//     const firstImage = newStudentsFour[0].image;                        // Save first image in newShortShuffledStudents
-
-//     btnPerson1El.textContent = `${studentsFour[0].name}`;               // Display the names of shortShuffledStudents to DOM
-//     btnPerson2El.textContent = `${studentsFour[1].name}`;
-//     btnPerson3El.textContent = `${studentsFour[2].name}`;
-//     btnPerson4El.textContent = `${studentsFour[3].name}`;
-//     imageContainerEl.src = firstImage;                                  // Display the image of the first object in newShortShuffledStudents to the DOM   
-
-//     usedNames.push(newStudentsFour[0]);
-
-//     return newStudentsFour[0];
-// };
-
-// let displayedImage = newPictureAndNames();
-// console.log('Picture:', displayedImage.name);
 
 // End game when rounds value is more than input value from Difficulty Buttons
 const checkRound = number => {
@@ -192,8 +156,6 @@ guessFormEl.addEventListener('click', e => {
             targetAddClass('btn-light');
             btnPersonDisabled(false);
             checkRound(maxRounds);
-            // displayedImage = newPictureAndNames();
-            // console.log('Picture:', displayedImage.name);
             currentRoundNames = [];
             newQuestion();
         }, 1500);
