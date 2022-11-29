@@ -45,6 +45,7 @@ let round = 1;
 let newStudents = students.map(student => student);
 shuffleArray(newStudents);
 let currentRoundNames = [];
+let correctStudent;
 // let usedNames = [];
 // let highscoresEasy = []; // Push in after easy round and display highscoreEasy at end.
 // let highscoresMedium = [];
@@ -64,9 +65,10 @@ let currentRoundNames = [];
 
 const getFirstStudent = () => {
     shuffleArray(newStudents);
-    currentRoundNames.push(newStudents[0]);
-    imageEl.src = newStudents[0].image;
-    return newStudents[0];
+    correctStudent = newStudents[0];
+    currentRoundNames.push(correctStudent);
+    imageEl.src = correctStudent.image;
+    return correctStudent;
 };
 
 const getThreeStudents = () => {
@@ -83,7 +85,7 @@ const getThreeStudents = () => {
 };
 
 const newQuestion = () => {
-    displayedImage = getFirstStudent();
+    getFirstStudent();
     getThreeStudents();
     shuffleArray(currentRoundNames);
 
@@ -92,8 +94,6 @@ const newQuestion = () => {
     btnPerson3El.textContent = `${currentRoundNames[2].name}`;
     btnPerson4El.textContent = `${currentRoundNames[3].name}`;
 };
-
-let displayedImage = getFirstStudent();
 
 // End game when rounds value is more than input value from Difficulty Buttons
 const checkRound = number => {
@@ -160,16 +160,17 @@ guessFormEl.addEventListener('click', e => {
         e.target.classList.remove('btn-light');
         round++;
 
-        console.log('Img:', displayedImage.name);
+        console.log('Img:', correctStudent.name);
         console.log('I clicked:', e.target.textContent);
 
-        if (e.target.textContent === displayedImage.name) {
+        if (e.target.textContent === correctStudent.name) {
             e.target.classList.add('btn-success');
             points++;
             // console.log('YEY! +1 point. Points:', points);
         }
         else {
             e.target.classList.add('btn-danger');
+
         };
 
         btnPersonDisabled(true);
@@ -181,7 +182,7 @@ guessFormEl.addEventListener('click', e => {
             btnPersonDisabled(false);
             checkRound(maxRounds);
             currentRoundNames = [];
-            // newQuestion();
+            newQuestion();
         }, 1500);
     };
 });
