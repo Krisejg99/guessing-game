@@ -46,6 +46,7 @@ let newStudents = students.map(student => student);
 shuffleArray(newStudents);
 let currentRoundNames = [];
 let correctStudent;
+
 // let usedNames = [];
 // let highscoresEasy = []; // Push in after easy round and display highscoreEasy at end.
 // let highscoresMedium = [];
@@ -149,7 +150,6 @@ btnQuitEl.addEventListener('click', e => {
 
     scoreboardEl.classList.add('hide');
     startGameFormEl.classList.remove('hide');
-
 });
 
 // Found a bug when i click the right answer, I get a point, but the button sometimes becomes red instead of green.
@@ -163,14 +163,29 @@ guessFormEl.addEventListener('click', e => {
         console.log('Img:', correctStudent.name);
         console.log('I clicked:', e.target.textContent);
 
+        if (btnPerson1El.textContent === correctStudent.name) {
+            btnPerson1El.classList.remove('btn-light');
+            btnPerson1El.classList.add('btn-success');
+        }
+        else if (btnPerson2El.textContent === correctStudent.name) {
+            btnPerson2El.classList.remove('btn-light');
+            btnPerson2El.classList.add('btn-success');
+        }
+        else if (btnPerson3El.textContent === correctStudent.name) {
+            btnPerson3El.classList.remove('btn-light');
+            btnPerson3El.classList.add('btn-success');
+        }
+        else if (btnPerson4El.textContent === correctStudent.name) {
+            btnPerson4El.classList.remove('btn-light');
+            btnPerson4El.classList.add('btn-success');
+        };
+
         if (e.target.textContent === correctStudent.name) {
-            e.target.classList.add('btn-success');
+            // e.target.classList.add('btn-success');
             points++;
-            // console.log('YEY! +1 point. Points:', points);
         }
         else {
             e.target.classList.add('btn-danger');
-
         };
 
         btnPersonDisabled(true);
@@ -179,6 +194,14 @@ guessFormEl.addEventListener('click', e => {
         setTimeout(() => {
             e.target.classList.remove('btn-success', 'btn-danger');
             e.target.classList.add('btn-light');
+            btnPerson1El.classList.add('btn-light');
+            btnPerson1El.classList.remove('btn-success');
+            btnPerson2El.classList.add('btn-light');
+            btnPerson2El.classList.remove('btn-success');
+            btnPerson3El.classList.add('btn-light');
+            btnPerson3El.classList.remove('btn-success');
+            btnPerson4El.classList.add('btn-light');
+            btnPerson4El.classList.remove('btn-success');
             btnPersonDisabled(false);
             checkRound(maxRounds);
             currentRoundNames = [];
