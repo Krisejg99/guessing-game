@@ -1,6 +1,6 @@
 /*
 * 
-* 
+* Det rätta svaret ska alltid bli grönt, även när man klickar fel.
 * 
 * 
 * 
@@ -166,7 +166,7 @@ guessFormEl.addEventListener('click', e => {
         if (e.target.textContent === displayedImage.name) {
             e.target.classList.add('btn-success');
             points++;
-            console.log('YEY! +1 point. Points:', points);
+            // console.log('YEY! +1 point. Points:', points);
         }
         else {
             e.target.classList.add('btn-danger');
@@ -181,7 +181,7 @@ guessFormEl.addEventListener('click', e => {
             btnPersonDisabled(false);
             checkRound(maxRounds);
             currentRoundNames = [];
-            newQuestion();
+            // newQuestion();
         }, 1500);
     };
 });
