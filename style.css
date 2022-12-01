@@ -7,9 +7,16 @@ body {
     justify-content: center;
 }
 
-.difficulty-form,
 .start-game-form {
     margin-top: 30vh;
+    width: 250px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.difficulty-form {
+    margin-top: 16.5vh;
     width: 250px;
     display: flex;
     flex-wrap: wrap;
@@ -65,9 +72,9 @@ body .hide {
 }
 
 @media screen and (min-width: 725px) {
-    .difficulty-form,
-    .start-game-form {
+    .difficulty-form {
         width: 100%;
+        margin-top: 30vh;
     }
 }
 

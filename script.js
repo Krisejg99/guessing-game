@@ -26,6 +26,7 @@ const scoreboardEl = document.querySelector('#scoreboard');
 const playAgainFormEl = document.querySelector('#playAgainForm');
 const btnPlayAgainEl = document.querySelector('#btnPlayAgain');
 const btnQuitEl = document.querySelector('#btnQuit');
+const titleEl = document.querySelector('#title');
 
 // FisherYates random number algorithm
 const shuffleArray = (array) => {
@@ -46,7 +47,6 @@ let newStudents = students.map(student => student);
 shuffleArray(newStudents);
 let currentRoundStudents = [];
 let correctStudent;
-
 let usedStudents = [];
 
 // let highscoresEasy = []; // Push in after easy round and display highscoreEasy at end.
@@ -103,6 +103,7 @@ const checkRound = number => {
     if (round > number) {
         gameContainerEl.classList.add('hide');
         scoreboardEl.classList.remove('hide')
+        titleEl.textContent = 'Guess the classmate';
 
         scoreEl.textContent = `${points} / ${round - 1}`;
         console.log(points + '/' + (round - 1));
@@ -152,6 +153,7 @@ difficultyFormEl.addEventListener('click', e => {
     if (e.target.tagName === 'BUTTON') {
         difficultyFormEl.classList.add('hide');
         gameContainerEl.classList.remove('hide');
+        titleEl.textContent = 'Who is this?';
 
         maxRounds = Number(e.target.value);
         newQuestion();
