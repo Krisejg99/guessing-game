@@ -1,6 +1,6 @@
 /*
 * 
-* Det rätta svaret ska alltid bli grönt, även när man klickar fel.
+* Samma bild får inte komma mer än 1 gång i samma spelrunda
 * 
 * 
 * 
@@ -44,10 +44,11 @@ let maxRounds;
 let round = 1;
 let newStudents = students.map(student => student);
 shuffleArray(newStudents);
-let currentRoundNames = [];
+let currentRoundStudents = [];
 let correctStudent;
 
-// let usedNames = [];
+let usedNames = [];
+
 // let highscoresEasy = []; // Push in after easy round and display highscoreEasy at end.
 // let highscoresMedium = [];
 // let highscoresHard = [];
@@ -66,8 +67,12 @@ let correctStudent;
 
 const getFirstStudent = () => {
     shuffleArray(newStudents);
-    correctStudent = newStudents[0];
-    currentRoundNames.push(correctStudent);
+    correctStudent = newStudents.find(student => !usedNames.includes(student))
+
+    console.log(correctStudent);
+
+    usedNames.push(correctStudent);
+    currentRoundStudents.push(correctStudent);
     imageEl.src = correctStudent.image;
     return correctStudent;
 };
@@ -77,8 +82,8 @@ const getThreeStudents = () => {
     // let top3 = [];
 
     newStudents.forEach(student => {
-        if (currentRoundNames.length < 4 && !currentRoundNames.includes(student)) {
-            currentRoundNames.push(student);
+        if (currentRoundStudents.length < 4 && !currentRoundStudents.includes(student)) {
+            currentRoundStudents.push(student);
             // top3.push(student)
         };
     });
@@ -86,14 +91,18 @@ const getThreeStudents = () => {
 };
 
 const newQuestion = () => {
+    if (checkRound(maxRounds)) {
+        return;
+    }
+
     getFirstStudent();
     getThreeStudents();
-    shuffleArray(currentRoundNames);
+    shuffleArray(currentRoundStudents);
 
-    btnPerson1El.textContent = `${currentRoundNames[0].name}`;
-    btnPerson2El.textContent = `${currentRoundNames[1].name}`;
-    btnPerson3El.textContent = `${currentRoundNames[2].name}`;
-    btnPerson4El.textContent = `${currentRoundNames[3].name}`;
+    btnPerson1El.textContent = `${currentRoundStudents[0].name}`;
+    btnPerson2El.textContent = `${currentRoundStudents[1].name}`;
+    btnPerson3El.textContent = `${currentRoundStudents[2].name}`;
+    btnPerson4El.textContent = `${currentRoundStudents[3].name}`;
 };
 
 // End game when rounds value is more than input value from Difficulty Buttons
@@ -107,6 +116,7 @@ const checkRound = number => {
 
         points = 0;
         round = 1;
+        return true;
     };
 };
 
@@ -116,6 +126,23 @@ const btnPersonDisabled = boolean => {
         = btnPerson3El.disabled
         = btnPerson4El.disabled = boolean;
 }
+
+const addSuccess = el => {
+    el.classList.add('btn-success');
+    el.classList.remove('btn-light');
+};
+const resetColor = el => {
+    el.classList.add('btn-light');
+    el.classList.remove('btn-success');
+    el.classList.remove('btn-danger');
+};
+const resetAllColors = () => {
+    resetColor(btnPerson1El);
+    resetColor(btnPerson2El);
+    resetColor(btnPerson3El);
+    resetColor(btnPerson4El);
+};
+
 // Start Game Button, shows difficulty screen
 btnStartGameEl.addEventListener('click', e => {
     e.preventDefault();
@@ -160,28 +187,23 @@ guessFormEl.addEventListener('click', e => {
         e.target.classList.remove('btn-light');
         round++;
 
-        console.log('Img:', correctStudent.name);
-        console.log('I clicked:', e.target.textContent);
+
+        // console.log('I clicked:', e.target.textContent);
 
         if (btnPerson1El.textContent === correctStudent.name) {
-            btnPerson1El.classList.remove('btn-light');
-            btnPerson1El.classList.add('btn-success');
+            addSuccess(btnPerson1El);
         }
         else if (btnPerson2El.textContent === correctStudent.name) {
-            btnPerson2El.classList.remove('btn-light');
-            btnPerson2El.classList.add('btn-success');
+            addSuccess(btnPerson2El);
         }
         else if (btnPerson3El.textContent === correctStudent.name) {
-            btnPerson3El.classList.remove('btn-light');
-            btnPerson3El.classList.add('btn-success');
+            addSuccess(btnPerson3El);
         }
         else if (btnPerson4El.textContent === correctStudent.name) {
-            btnPerson4El.classList.remove('btn-light');
-            btnPerson4El.classList.add('btn-success');
+            addSuccess(btnPerson4El);
         };
 
         if (e.target.textContent === correctStudent.name) {
-            // e.target.classList.add('btn-success');
             points++;
         }
         else {
@@ -192,20 +214,11 @@ guessFormEl.addEventListener('click', e => {
 
         // Delay 1.5 sec before going to next question
         setTimeout(() => {
-            e.target.classList.remove('btn-success', 'btn-danger');
-            e.target.classList.add('btn-light');
-            btnPerson1El.classList.add('btn-light');
-            btnPerson1El.classList.remove('btn-success');
-            btnPerson2El.classList.add('btn-light');
-            btnPerson2El.classList.remove('btn-success');
-            btnPerson3El.classList.add('btn-light');
-            btnPerson3El.classList.remove('btn-success');
-            btnPerson4El.classList.add('btn-light');
-            btnPerson4El.classList.remove('btn-success');
+            resetAllColors()
             btnPersonDisabled(false);
-            checkRound(maxRounds);
-            currentRoundNames = [];
+            currentRoundStudents = [];
             newQuestion();
         }, 1500);
     };
 });
+
