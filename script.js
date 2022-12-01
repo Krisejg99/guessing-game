@@ -47,7 +47,7 @@ shuffleArray(newStudents);
 let currentRoundStudents = [];
 let correctStudent;
 
-let usedNames = [];
+let usedStudents = [];
 
 // let highscoresEasy = []; // Push in after easy round and display highscoreEasy at end.
 // let highscoresMedium = [];
@@ -67,27 +67,20 @@ let usedNames = [];
 
 const getFirstStudent = () => {
     shuffleArray(newStudents);
-    correctStudent = newStudents.find(student => !usedNames.includes(student))
-
-    console.log(correctStudent);
-
-    usedNames.push(correctStudent);
+    correctStudent = newStudents.find(student => !usedStudents.includes(student))
+    usedStudents.push(correctStudent);
     currentRoundStudents.push(correctStudent);
     imageEl.src = correctStudent.image;
-    return correctStudent;
 };
 
 const getThreeStudents = () => {
     shuffleArray(newStudents);
-    // let top3 = [];
 
     newStudents.forEach(student => {
         if (currentRoundStudents.length < 4 && !currentRoundStudents.includes(student)) {
             currentRoundStudents.push(student);
-            // top3.push(student)
         };
     });
-    // return top3;
 };
 
 const newQuestion = () => {
@@ -116,6 +109,7 @@ const checkRound = number => {
 
         points = 0;
         round = 1;
+        usedStudents = [];
         return true;
     };
 };
@@ -213,12 +207,12 @@ guessFormEl.addEventListener('click', e => {
         btnPersonDisabled(true);
 
         // Delay 1.5 sec before going to next question
-        setTimeout(() => {
-            resetAllColors()
-            btnPersonDisabled(false);
-            currentRoundStudents = [];
-            newQuestion();
-        }, 1500);
+        // setTimeout(() => {
+        resetAllColors()
+        btnPersonDisabled(false);
+        currentRoundStudents = [];
+        newQuestion();
+        // }, 1500);
     };
 });
 
