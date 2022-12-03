@@ -5,6 +5,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 1rem 0;
 }
 
 .start-game-form {
@@ -31,7 +32,7 @@ body {
 }
 
 .guess-form {
-    max-width: 200px;
+    max-width: 500px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -47,16 +48,23 @@ body .hide {
     display: none;
 }
 
-.score {
+.end-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8.7vh;
+}
+
+.finalScore {
     font-size: 4rem;
     margin-bottom: 4rem;
 }
 
-.scoreboard {
+.play-again-form {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 10vh;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .image {
@@ -65,10 +73,21 @@ body .hide {
     height: auto;
 }
 
-@media screen and (min-width: 500px) {
-    .guess-form {
-        max-width: 500px;
-    }
+.progress-stats {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0.7rem;
+    text-align: center;
+}
+
+.progress-counter h2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 1.1rem;
 }
 
 @media screen and (min-width: 725px) {
@@ -80,6 +99,6 @@ body .hide {
 
 @media screen and (min-width: 1000px) {
     .guess-form {
-        max-width: 1000px;
+        max-width: 100%;
     }
 }

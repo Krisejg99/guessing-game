@@ -1,6 +1,6 @@
 /*
 * 
-* Samma bild får inte komma mer än 1 gång i samma spelrunda
+* 
 * 
 * 
 * 
@@ -21,12 +21,14 @@ const difficultyFormEl = document.querySelector('#difficultyForm');
 const btnEasyEl = document.querySelector('#btnEasy');
 const btnMediumEl = document.querySelector('#btnMedium');
 const btnHardEl = document.querySelector('#btnHard');
-const scoreEl = document.querySelector('#score');
-const scoreboardEl = document.querySelector('#scoreboard');
+const finalScoreEl = document.querySelector('#finalScore');
 const playAgainFormEl = document.querySelector('#playAgainForm');
 const btnPlayAgainEl = document.querySelector('#btnPlayAgain');
 const btnQuitEl = document.querySelector('#btnQuit');
 const titleEl = document.querySelector('#title');
+const roundEl = document.querySelector('#round');
+const scoreEl = document.querySelector('#score');
+const progressStatsEl = document.querySelector('#progressStats');
 
 // FisherYates random number algorithm
 const shuffleArray = (array) => {
@@ -41,8 +43,8 @@ const shuffleArray = (array) => {
 btnHardEl.value = students.length;
 
 let points = 0;
-let maxRounds;
 let round = 1;
+let maxRounds;
 let newStudents = students.map(student => student);
 shuffleArray(newStudents);
 let currentRoundStudents = [];
@@ -96,23 +98,30 @@ const newQuestion = () => {
     btnPerson2El.textContent = `${currentRoundStudents[1].name}`;
     btnPerson3El.textContent = `${currentRoundStudents[2].name}`;
     btnPerson4El.textContent = `${currentRoundStudents[3].name}`;
+    roundEl.textContent = `${round} / ${maxRounds}`;
 };
 
 // End game when rounds value is more than input value from Difficulty Buttons
 const checkRound = number => {
     if (round > number) {
         gameContainerEl.classList.add('hide');
-        scoreboardEl.classList.remove('hide')
-        titleEl.textContent = 'Guess the classmate';
+        progressStatsEl.classList.add('hide');
+        btnPlayAgainEl.classList.remove('hide');
+        titleEl.classList.remove('hide');
+        finalScoreEl.classList.remove('hide');
 
-        scoreEl.textContent = `${points} / ${round - 1}`;
+        finalScoreEl.textContent = `${points} / ${round - 1}`;
         console.log(points + '/' + (round - 1));
 
-        points = 0;
-        round = 1;
-        usedStudents = [];
+        resetStats();
         return true;
     };
+};
+
+const resetStats = () => {
+    points = 0;
+    round = 1;
+    usedStudents = [];
 };
 
 const btnPersonDisabled = boolean => {
@@ -138,6 +147,10 @@ const resetAllColors = () => {
     resetColor(btnPerson4El);
 };
 
+const updatePoints = () => {
+    scoreEl.textContent = `${points}`;
+};
+
 // Start Game Button, shows difficulty screen
 btnStartGameEl.addEventListener('click', e => {
     e.preventDefault();
@@ -152,10 +165,13 @@ difficultyFormEl.addEventListener('click', e => {
 
     if (e.target.tagName === 'BUTTON') {
         difficultyFormEl.classList.add('hide');
+        titleEl.classList.add('hide');
         gameContainerEl.classList.remove('hide');
-        titleEl.textContent = 'Who is this?';
+        progressStatsEl.classList.remove('hide');
+        btnQuitEl.classList.remove('hide');
 
         maxRounds = Number(e.target.value);
+        updatePoints();
         newQuestion();
     };
 });
@@ -163,16 +179,24 @@ difficultyFormEl.addEventListener('click', e => {
 btnPlayAgainEl.addEventListener('click', e => {
     e.preventDefault();
 
-    scoreboardEl.classList.add('hide');
     startGameFormEl.classList.add('hide');
+    finalScoreEl.classList.add('hide');
+    btnPlayAgainEl.classList.add('hide');
+    btnQuitEl.classList.add('hide');
     difficultyFormEl.classList.remove('hide');
 });
 
 btnQuitEl.addEventListener('click', e => {
     e.preventDefault();
 
-    scoreboardEl.classList.add('hide');
+    finalScoreEl.classList.add('hide');
+    btnPlayAgainEl.classList.add('hide');
+    btnQuitEl.classList.add('hide');
+    gameContainerEl.classList.add('hide');
+    progressStatsEl.classList.add('hide');
     startGameFormEl.classList.remove('hide');
+
+    resetStats();
 });
 
 // Found a bug when i click the right answer, I get a point, but the button sometimes becomes red instead of green.
@@ -181,11 +205,10 @@ guessFormEl.addEventListener('click', e => {
     e.preventDefault();
     if (e.target.tagName === 'BUTTON') {
         e.target.classList.remove('btn-light');
-        round++;
-
 
         // console.log('I clicked:', e.target.textContent);
 
+        // Make the correkt answer green
         if (btnPerson1El.textContent === correctStudent.name) {
             addSuccess(btnPerson1El);
         }
@@ -208,12 +231,15 @@ guessFormEl.addEventListener('click', e => {
 
         btnPersonDisabled(true);
 
+        round++;
+        updatePoints();
+
         // Delay 1.5 sec before going to next question
         // setTimeout(() => {
-        resetAllColors()
-        btnPersonDisabled(false);
         currentRoundStudents = [];
         newQuestion();
+        resetAllColors();
+        btnPersonDisabled(false);
         // }, 1500);
     };
 });
