@@ -32,6 +32,7 @@ const titleEl = document.querySelector('#title');
 
 let correctStudent;
 let currentRoundStudents = [];
+let inPlayStudents = [];
 let maxRounds;
 let newStudents = students.map(student => student);
 let points;
@@ -105,7 +106,9 @@ const displayNames = student => {
 
 const getFirstStudent = () => {
     shuffleArray(newStudents);
-    correctStudent = newStudents.find(student => !usedStudents.includes(student))
+
+    inPlayStudents = newStudents.filter(student => !usedStudents.includes(student));
+    correctStudent = inPlayStudents[0];
     usedStudents.push(correctStudent);
     currentRoundStudents.push(correctStudent);
     imageEl.src = correctStudent.image;
