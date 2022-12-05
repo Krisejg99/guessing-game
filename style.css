@@ -101,6 +101,29 @@ body .hide {
     position: absolute;
 }
 
+.highscores {
+    width: 100%;
+    background-color: rgb(187, 223, 255);
+    margin: 4rem 1rem;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    color: black;
+    font-size: 1.5rem;
+}
+
+.highscores ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.highscores li {
+    margin: 1rem;
+}
+
+.highscores h2 {
+    margin: 1rem 1rem 2rem 1rem;
+}
+
 @media screen and (min-width: 725px) {
     .difficulty-form {
         width: 100%;

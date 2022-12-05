@@ -18,6 +18,8 @@ const difficultyFormEl = document.querySelector('#difficultyForm');
 const finalScoreEl = document.querySelector('#finalScore');
 const gameContainerEl = document.querySelector('#gameContainer');
 const guessFormEl = document.querySelector('#guessForm');
+const highscoreListEl = document.querySelector('#highscoreList');
+const highscoresEl = document.querySelector('#highscores');
 const imageEl = document.querySelector('#image');
 const plusOneEl = document.querySelector('#plusOne');
 const progressStatsEl = document.querySelector('#progressStats');
@@ -44,17 +46,17 @@ let usedStudents = [];
 // let highscoresMedium = [];
 // let highscoresHard = [];
 
-// // eller använd filter() på en gemensam array:
-// let highscores = [
-//     {
-//         highscore: 7 + '/' + 10,
-//         gamemode: 'Easy',
-//     },
-//     {
-//         highscore: 32 + '/' + 41,
-//         gamemode: 'Hard',
-//     },
-// ];
+// eller använd filter() på en gemensam array:
+let highscores = [
+    // {
+    //     highscore: 7 + '/' + 10,
+    //     gamemode: 'Easy',
+    // },
+    // {
+    //     highscore: 32 + '/' + 41,
+    //     gamemode: 'Hard',
+    // },
+];
 
 
 /**********************************************************************************/
@@ -83,6 +85,29 @@ const checkClickedButton = btn => {
 
 const checkRound = maxRounds => {
     if (round >= maxRounds) {
+
+        displayEl(highscoresEl);
+
+        if (highscores.length < 10) {
+            highscoreListEl.innerHTML = '';
+
+            highscores.push(
+                {
+                    score: points,
+                    rounds: maxRounds,
+                },
+            );
+
+            highscores.sort((a, b) => b.score - a.score);
+            console.log(highscores)
+
+
+            highscores.forEach(highscore => {
+                highscoreListEl.innerHTML += `
+                <li>${highscore.score}/${highscore.rounds}</li>
+            `;
+            });
+        };
 
         hideEl(gameContainerEl);
         hideEl(progressStatsEl);
@@ -239,6 +264,7 @@ btnPlayAgainEl.addEventListener('click', e => {
     hideEl(finalScoreEl);
     hideEl(btnPlayAgainEl);
     hideEl(btnQuitEl);
+    hideEl(highscoresEl);
     displayEl(difficultyFormEl);
 });
 
@@ -248,6 +274,7 @@ btnQuitEl.addEventListener('click', e => {
     hideEl(finalScoreEl);
     hideEl(btnPlayAgainEl);
     hideEl(btnQuitEl);
+    hideEl(highscoresEl);
     hideEl(gameContainerEl);
     hideEl(progressStatsEl);
     displayEl(startGameFormEl);
@@ -264,13 +291,13 @@ guessFormEl.addEventListener('click', e => {
         btnPersonDisabled(true);
 
         // Delay 1.5 sec before going to next question
-        setTimeout(() => {
-            hideEl(plusOneEl);
-            currentRoundStudents = [];
-            newQuestion();
-            resetAllColors();
-            btnPersonDisabled(false);
-        }, 1500);
+        // setTimeout(() => {
+        hideEl(plusOneEl);
+        currentRoundStudents = [];
+        newQuestion();
+        resetAllColors();
+        btnPersonDisabled(false);
+        // }, 1500);
     };
 });
 
