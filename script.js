@@ -83,6 +83,7 @@ const checkRound = maxRounds => {
 };
 
 const createHighscore = () => {
+
     highscoreListEl.innerHTML = '';
     highscores.push(
         {
@@ -219,6 +220,7 @@ btnStartGameEl.addEventListener('click', e => {
     e.preventDefault();
 
     hideEl(startGameFormEl);
+    hideEl(highscoresEl);
     displayEl(difficultyFormEl);
 });
 
@@ -257,9 +259,9 @@ btnQuitEl.addEventListener('click', e => {
     hideEl(finalScoreEl);
     hideEl(btnPlayAgainEl);
     hideEl(btnQuitEl);
-    hideEl(highscoresEl);
     hideEl(gameContainerEl);
     hideEl(progressStatsEl);
+    displayEl(highscoresEl);
     displayEl(startGameFormEl);
 });
 
@@ -294,3 +296,7 @@ btnMediumEl.value = 20;
 btnHardEl.value = students.length;
 
 scoreEl.textContent = points;
+
+if (!highscoreListEl.innerHTML) {
+    highscoreListEl.innerHTML += '<li>None yet, play a game!</li>';
+};
