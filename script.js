@@ -200,6 +200,7 @@ const shuffleArray = (array) => {
 
 const updatePoints = () => {
     points++;
+    scoreEl.style.color = '#198754';
     scoreEl.textContent = `${points}`;
 };
 
@@ -275,6 +276,7 @@ guessFormEl.addEventListener('click', e => {
         // Delay 1.5 sec before going to next question
         setTimeout(() => {
             currentRoundStudents = [];
+            scoreEl.style.color = 'white';
             newQuestion();
             resetAllColors();
             btnPersonDisabled(false);
