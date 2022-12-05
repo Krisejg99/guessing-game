@@ -35,7 +35,7 @@ const titleEl = document.querySelector('#title');
 
 let correctStudent;
 let currentRoundStudents = [];
-let inPlayStudents = [];
+let availableStudents = [];
 let maxRounds;
 let newStudents = students.map(student => student);
 let points;
@@ -86,29 +86,8 @@ const checkClickedButton = btn => {
 const checkRound = maxRounds => {
     if (round >= maxRounds) {
 
+        createHighscore();
         displayEl(highscoresEl);
-
-        if (highscores.length < 10) {
-            highscoreListEl.innerHTML = '';
-
-            highscores.push(
-                {
-                    score: points,
-                    rounds: maxRounds,
-                },
-            );
-
-            highscores.sort((a, b) => b.score - a.score);
-            console.log(highscores)
-
-
-            highscores.forEach(highscore => {
-                highscoreListEl.innerHTML += `
-                <li>${highscore.score}/${highscore.rounds}</li>
-            `;
-            });
-        };
-
         hideEl(gameContainerEl);
         hideEl(progressStatsEl);
         displayEl(btnPlayAgainEl);
@@ -117,6 +96,25 @@ const checkRound = maxRounds => {
         showFinalScore();
         return true;
     };
+};
+
+const createHighscore = () => {
+    highscoreListEl.innerHTML = '';
+    highscores.push(
+        {
+            score: points,
+            rounds: maxRounds,
+        },
+    );
+
+    highscores.sort((a, b) => b.score - a.score);
+    let top10 = highscores.slice(0, 10)
+
+    top10.forEach(highscore => {
+        highscoreListEl.innerHTML += `
+                <li>${highscore.score}/${highscore.rounds}</li>
+            `;
+    });
 };
 
 const displayEl = el => {
@@ -133,8 +131,8 @@ const displayNames = student => {
 const getFirstStudent = () => {
     shuffleArray(newStudents);
 
-    inPlayStudents = newStudents.filter(student => !usedStudents.includes(student));
-    correctStudent = inPlayStudents[0];
+    availableStudents = newStudents.filter(student => !usedStudents.includes(student));
+    correctStudent = availableStudents[0];
     usedStudents.push(correctStudent);
     currentRoundStudents.push(correctStudent);
     imageEl.src = correctStudent.image;
