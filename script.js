@@ -21,7 +21,6 @@ const guessFormEl = document.querySelector('#guessForm');
 const highscoreListEl = document.querySelector('#highscoreList');
 const highscoresEl = document.querySelector('#highscores');
 const imageEl = document.querySelector('#image');
-const plusOneEl = document.querySelector('#plusOne');
 const progressStatsEl = document.querySelector('#progressStats');
 const roundEl = document.querySelector('#round');
 const scoreEl = document.querySelector('#score');
@@ -32,31 +31,16 @@ const titleEl = document.querySelector('#title');
 /**********************************************************************************/
 /* VARIABLES */
 
-
+let availableStudents = [];
 let correctStudent;
 let currentRoundStudents = [];
-let availableStudents = [];
+let highscores = [];
 let maxRounds;
 let newStudents = students.map(student => student);
 let points;
 let round;
 let usedStudents = [];
 
-// let highscoresEasy = []; // Push in after easy round and display highscoreEasy at end.
-// let highscoresMedium = [];
-// let highscoresHard = [];
-
-// eller använd filter() på en gemensam array:
-let highscores = [
-    // {
-    //     highscore: 7 + '/' + 10,
-    //     gamemode: 'Easy',
-    // },
-    // {
-    //     highscore: 32 + '/' + 41,
-    //     gamemode: 'Hard',
-    // },
-];
 
 
 /**********************************************************************************/
@@ -87,9 +71,9 @@ const checkRound = maxRounds => {
     if (round >= maxRounds) {
 
         createHighscore();
-        displayEl(highscoresEl);
         hideEl(gameContainerEl);
         hideEl(progressStatsEl);
+        displayEl(highscoresEl);
         displayEl(btnPlayAgainEl);
         displayEl(titleEl);
         displayEl(finalScoreEl);
@@ -108,6 +92,7 @@ const createHighscore = () => {
     );
 
     highscores.sort((a, b) => b.score - a.score);
+
     let top10 = highscores.slice(0, 10)
 
     top10.forEach(highscore => {
@@ -216,7 +201,6 @@ const shuffleArray = (array) => {
 const updatePoints = () => {
     points++;
     scoreEl.textContent = `${points}`;
-    displayEl(plusOneEl);
 };
 
 const updateRound = () => {
@@ -289,13 +273,12 @@ guessFormEl.addEventListener('click', e => {
         btnPersonDisabled(true);
 
         // Delay 1.5 sec before going to next question
-        // setTimeout(() => {
-        hideEl(plusOneEl);
-        currentRoundStudents = [];
-        newQuestion();
-        resetAllColors();
-        btnPersonDisabled(false);
-        // }, 1500);
+        setTimeout(() => {
+            currentRoundStudents = [];
+            newQuestion();
+            resetAllColors();
+            btnPersonDisabled(false);
+        }, 1500);
     };
 });
 

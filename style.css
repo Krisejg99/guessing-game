@@ -90,17 +90,6 @@ body .hide {
     font-size: 1.1rem;
 }
 
-.plus-one {
-    font-size: 10rem;
-    letter-spacing: -2rem;
-    padding-right: 1rem;
-    top: 30%;
-    font-weight: bolder;
-    color: rgb(25, 135, 84);
-    text-shadow: 0 0 20px rgb(0, 195, 104);
-    position: absolute;
-}
-
 .highscores {
     width: 100%;
     background-color: rgb(187, 223, 255);
@@ -128,11 +117,6 @@ body .hide {
     .difficulty-form {
         width: 100%;
         margin-top: 30vh;
-    }
-
-    .plus-one {
-        font-size: 15rem;
-        top: 30%;
     }
 }
 
