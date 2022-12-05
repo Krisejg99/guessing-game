@@ -19,6 +19,7 @@ const finalScoreEl = document.querySelector('#finalScore');
 const gameContainerEl = document.querySelector('#gameContainer');
 const guessFormEl = document.querySelector('#guessForm');
 const imageEl = document.querySelector('#image');
+const plusOneEl = document.querySelector('#plusOne');
 const progressStatsEl = document.querySelector('#progressStats');
 const roundEl = document.querySelector('#round');
 const scoreEl = document.querySelector('#score');
@@ -192,6 +193,7 @@ const shuffleArray = (array) => {
 const updatePoints = () => {
     points++;
     scoreEl.textContent = `${points}`;
+    displayEl(plusOneEl);
 };
 
 const updateRound = () => {
@@ -263,6 +265,7 @@ guessFormEl.addEventListener('click', e => {
 
         // Delay 1.5 sec before going to next question
         setTimeout(() => {
+            hideEl(plusOneEl);
             currentRoundStudents = [];
             newQuestion();
             resetAllColors();
