@@ -69,7 +69,6 @@ const checkClickedButton = btn => {
 
 const checkRound = maxRounds => {
     if (round >= maxRounds) {
-
         createHighscore();
         hideEl(gameContainerEl);
         hideEl(progressStatsEl);
@@ -83,7 +82,6 @@ const checkRound = maxRounds => {
 };
 
 const createHighscore = () => {
-
     highscoreListEl.innerHTML = '';
     highscores.push(
         {
@@ -93,13 +91,11 @@ const createHighscore = () => {
     );
 
     highscores.sort((a, b) => b.score - a.score);
-
     let top10 = highscores.slice(0, 10)
-
     top10.forEach(highscore => {
         highscoreListEl.innerHTML += `
-                <li>${highscore.score}/${highscore.rounds}</li>
-            `;
+            <li>${highscore.score}/${highscore.rounds}</li>
+        `;
     });
 };
 
@@ -120,7 +116,6 @@ const displayNames = student => {
 
 const getFirstStudent = () => {
     shuffleArray(newStudents);
-
     availableStudents = newStudents.filter(student => !usedStudents.includes(student));
     correctStudent = availableStudents[0];
     usedStudents.push(correctStudent);
@@ -175,7 +170,6 @@ const resetStats = () => {
 };
 
 const showCorrectAnswer = () => {
-
     if (btnPerson1El.dataset.answerId === correctStudent.name) {
         addSuccess(btnPerson1El);
     }
@@ -233,9 +227,7 @@ difficultyFormEl.addEventListener('click', e => {
     e.preventDefault();
 
     if (e.target.tagName === 'BUTTON') {
-
         maxRounds = Number(e.target.value);
-
         hideEl(difficultyFormEl);
         hideEl(titleEl);
         displayEl(gameContainerEl);
@@ -274,7 +266,6 @@ guessFormEl.addEventListener('click', e => {
     e.preventDefault();
 
     if (e.target.tagName === 'BUTTON') {
-        // console.log('I clicked:', e.target.textContent);
         showCorrectAnswer();
         checkClickedButton(e.target);
         btnPersonDisabled(true);
@@ -298,8 +289,6 @@ guessFormEl.addEventListener('click', e => {
 btnEasyEl.value = 10;
 btnMediumEl.value = 20;
 btnHardEl.value = students.length;
-
-scoreEl.textContent = points;
 
 if (!highscoreListEl.innerHTML) {
     highscoreListEl.innerHTML += '<li>None yet, play a game!</li>';
