@@ -31,16 +31,16 @@ const titleEl = document.querySelector('#title');
 /**********************************************************************************/
 /* VARIABLES */
 
+
 let availableStudents = [];
 let correctStudent;
 let currentRoundStudents = [];
 let highscores = [];
 let maxRounds;
-let newStudents = students.map(student => student);
+let newStudents = [...students];
 let points;
 let round;
 let usedStudents = [];
-
 
 
 /**********************************************************************************/
@@ -112,6 +112,10 @@ const displayNames = student => {
     btnPerson2El.textContent = student[1].name;
     btnPerson3El.textContent = student[2].name;
     btnPerson4El.textContent = student[3].name;
+    btnPerson1El.dataset.answerId = student[0].name;
+    btnPerson2El.dataset.answerId = student[1].name;
+    btnPerson3El.dataset.answerId = student[2].name;
+    btnPerson4El.dataset.answerId = student[3].name;
 };
 
 const getFirstStudent = () => {
@@ -172,16 +176,16 @@ const resetStats = () => {
 
 const showCorrectAnswer = () => {
 
-    if (btnPerson1El.textContent === correctStudent.name) {
+    if (btnPerson1El.dataset.answerId === correctStudent.name) {
         addSuccess(btnPerson1El);
     }
-    else if (btnPerson2El.textContent === correctStudent.name) {
+    else if (btnPerson2El.dataset.answerId === correctStudent.name) {
         addSuccess(btnPerson2El);
     }
-    else if (btnPerson3El.textContent === correctStudent.name) {
+    else if (btnPerson3El.dataset.answerId === correctStudent.name) {
         addSuccess(btnPerson3El);
     }
-    else if (btnPerson4El.textContent === correctStudent.name) {
+    else if (btnPerson4El.dataset.answerId === correctStudent.name) {
         addSuccess(btnPerson4El);
     };
 };
