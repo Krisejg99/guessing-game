@@ -32,15 +32,15 @@ const titleEl = document.querySelector('#title');
 /* VARIABLES */
 
 
-let availableStudents = [];
-let correctStudent;
-let currentRoundStudents = [];
+let availableMovies = [];
+let correctMovie;
+let currentRoundMovies = [];
 let highscores = [];
 let maxRounds;
-let newStudents = [...students];
+let newMovies = [...movies];
 let points;
 let round;
-let usedStudents = [];
+let usedMovies = [];
 
 
 /**********************************************************************************/
@@ -62,7 +62,7 @@ const btnPersonDisabled = boolean => {
 const checkClickedButton = btn => {
     btn.classList.remove('btn-light');
 
-    (btn.textContent === correctStudent.name)
+    (btn.textContent === correctMovie.name)
         ? updatePoints()
         : btn.classList.add('btn-danger');
 };
@@ -103,31 +103,31 @@ const displayEl = el => {
     el.classList.remove('hide');
 };
 
-const displayNames = student => {
-    btnPerson1El.textContent = student[0].name;
-    btnPerson2El.textContent = student[1].name;
-    btnPerson3El.textContent = student[2].name;
-    btnPerson4El.textContent = student[3].name;
-    btnPerson1El.dataset.answerId = student[0].name;
-    btnPerson2El.dataset.answerId = student[1].name;
-    btnPerson3El.dataset.answerId = student[2].name;
-    btnPerson4El.dataset.answerId = student[3].name;
+const displayNames = movie => {
+    btnPerson1El.textContent = movie[0].name;
+    btnPerson2El.textContent = movie[1].name;
+    btnPerson3El.textContent = movie[2].name;
+    btnPerson4El.textContent = movie[3].name;
+    btnPerson1El.dataset.answerId = movie[0].name;
+    btnPerson2El.dataset.answerId = movie[1].name;
+    btnPerson3El.dataset.answerId = movie[2].name;
+    btnPerson4El.dataset.answerId = movie[3].name;
 };
 
-const getFirstStudent = () => {
-    shuffleArray(newStudents);
-    availableStudents = newStudents.filter(student => !usedStudents.includes(student));
-    correctStudent = availableStudents[0];
-    usedStudents.push(correctStudent);
-    currentRoundStudents.push(correctStudent);
-    imageEl.src = correctStudent.image;
+const getFirstMovie = () => {
+    shuffleArray(newMovies);
+    availableMovies = newMovies.filter(movie => !usedMovies.includes(movie));
+    correctMovie = availableMovies[0];
+    usedMovies.push(correctMovie);
+    currentRoundMovies.push(correctMovie);
+    imageEl.src = correctMovie.mini_image;
 };
 
-const getThreeStudents = () => {
-    shuffleArray(newStudents);
-    newStudents.forEach(student => {
-        if (currentRoundStudents.length < 4 && !currentRoundStudents.includes(student)) {
-            currentRoundStudents.push(student);
+const getThreeMovies = () => {
+    shuffleArray(newMovies);
+    newMovies.forEach(movie => {
+        if (currentRoundMovies.length < 4 && !currentRoundMovies.includes(movie)) {
+            currentRoundMovies.push(movie);
         };
     });
 };
@@ -141,10 +141,10 @@ const newQuestion = () => {
         return;
     };
 
-    getFirstStudent();
-    getThreeStudents();
-    shuffleArray(currentRoundStudents);
-    displayNames(currentRoundStudents)
+    getFirstMovie();
+    getThreeMovies();
+    shuffleArray(currentRoundMovies);
+    displayNames(currentRoundMovies)
     updateRound();
 };
 
@@ -166,20 +166,20 @@ const resetStats = () => {
     scoreEl.textContent = `${points}`;
     round = 0;
     roundEl.textContent = `${round} / ${maxRounds}`;
-    usedStudents = [];
+    usedMovies = [];
 };
 
 const showCorrectAnswer = () => {
-    if (btnPerson1El.dataset.answerId === correctStudent.name) {
+    if (btnPerson1El.dataset.answerId === correctMovie.name) {
         addSuccess(btnPerson1El);
     }
-    else if (btnPerson2El.dataset.answerId === correctStudent.name) {
+    else if (btnPerson2El.dataset.answerId === correctMovie.name) {
         addSuccess(btnPerson2El);
     }
-    else if (btnPerson3El.dataset.answerId === correctStudent.name) {
+    else if (btnPerson3El.dataset.answerId === correctMovie.name) {
         addSuccess(btnPerson3El);
     }
-    else if (btnPerson4El.dataset.answerId === correctStudent.name) {
+    else if (btnPerson4El.dataset.answerId === correctMovie.name) {
         addSuccess(btnPerson4El);
     };
 };
@@ -272,7 +272,7 @@ guessFormEl.addEventListener('click', e => {
 
         // Delay 1.5 sec before going to next question
         setTimeout(() => {
-            currentRoundStudents = [];
+            currentRoundMovies = [];
             scoreEl.style.color = 'white';
             newQuestion();
             resetAllColors();
@@ -288,7 +288,7 @@ guessFormEl.addEventListener('click', e => {
 
 btnEasyEl.value = 10;
 btnMediumEl.value = 20;
-btnHardEl.value = students.length;
+btnHardEl.value = movies.length;
 
 if (!highscoreListEl.innerHTML) {
     highscoreListEl.innerHTML += '<li>None yet, play a game!</li>';
