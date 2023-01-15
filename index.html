@@ -12,7 +12,7 @@
 </head>
 <body class="bg-dark text-white">
 
-    <h1 id="title">Guess the classmate</h1>
+    <h1 id="title">Guess the Movie/TV-series</h1>
 
     <div class="progress-stats hide" id="progressStats">
 
@@ -21,7 +21,7 @@
             <h3 id="round"></h3>
         </div>
 
-        <h2 class="title">Who is this?</h2>
+        <h2 class="title">What Movie or TV-series is this image from?</h2>
 
         <div class="progress-counter">
             <h2>Score</h2>
@@ -42,7 +42,11 @@
     
     <div class="container hide" id="gameContainer">
 
-        <img src="assets/images/question-mark.jpg" alt="picture of classmate" id="image" class="image mt-0 img-fluid">
+        <div id="img-container" class="img-container">
+            
+        </div>
+
+        <button type="button" id="nextQuestionBtn" class="btn btn-warning nextQuestionBtn hide">Next</button>
 
         <form id="guessForm" class="guess-form">
             <button type="button" class="btn btn-light" id="btnPerson1" data-answer-id="">Person1</button>

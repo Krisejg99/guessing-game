@@ -20,7 +20,7 @@ const gameContainerEl = document.querySelector('#gameContainer');
 const guessFormEl = document.querySelector('#guessForm');
 const highscoreListEl = document.querySelector('#highscoreList');
 const highscoresEl = document.querySelector('#highscores');
-const imageEl = document.querySelector('#image');
+const nextQuestionBtnEl = document.querySelector('#nextQuestionBtn')
 const progressStatsEl = document.querySelector('#progressStats');
 const roundEl = document.querySelector('#round');
 const scoreEl = document.querySelector('#score');
@@ -120,7 +120,9 @@ const getFirstMovie = () => {
     correctMovie = availableMovies[0];
     usedMovies.push(correctMovie);
     currentRoundMovies.push(correctMovie);
-    imageEl.src = correctMovie.mini_image;
+    document.querySelector('#img-container').innerHTML = `
+        <img src="${correctMovie.mini_image}" alt="picture of ${correctMovie.name}" class="image guessingImage mt-0 img-fluid">
+    `;
 };
 
 const getThreeMovies = () => {
@@ -182,6 +184,11 @@ const showCorrectAnswer = () => {
     else if (btnPerson4El.dataset.answerId === correctMovie.name) {
         addSuccess(btnPerson4El);
     };
+    document.querySelector('#img-container').innerHTML = `
+        <img src="${correctMovie.mini_image}" alt="picture of ${correctMovie.name}" class="image mt-0 img-fluid">
+        <img src="${correctMovie.image}" alt="picture ${correctMovie.name}" class="image mt-0 img-fluid">
+    `;
+    displayEl(nextQuestionBtnEl)
 };
 
 const showFinalScore = () => {
@@ -269,17 +276,17 @@ guessFormEl.addEventListener('click', e => {
         showCorrectAnswer();
         checkClickedButton(e.target);
         btnPersonDisabled(true);
-
-        // Delay 1.5 sec before going to next question
-        setTimeout(() => {
-            currentRoundMovies = [];
-            scoreEl.style.color = 'white';
-            newQuestion();
-            resetAllColors();
-            btnPersonDisabled(false);
-        }, 1500);
     };
 });
+
+nextQuestionBtnEl.addEventListener('click', () => {
+    currentRoundMovies = [];
+    scoreEl.style.color = 'white';
+    hideEl(nextQuestionBtnEl)
+    newQuestion();
+    resetAllColors();
+    btnPersonDisabled(false);
+})
 
 
 /**********************************************************************************/
