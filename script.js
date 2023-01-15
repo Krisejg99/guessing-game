@@ -240,8 +240,12 @@ difficultyFormEl.addEventListener('click', e => {
         displayEl(gameContainerEl);
         displayEl(progressStatsEl);
         displayEl(btnQuitEl);
+
         resetStats();
+        hideEl(nextQuestionBtnEl)
         newQuestion();
+        resetAllColors();
+        btnPersonDisabled(false);
     };
 });
 
@@ -266,6 +270,9 @@ btnQuitEl.addEventListener('click', e => {
     hideEl(progressStatsEl);
     displayEl(highscoresEl);
     displayEl(startGameFormEl);
+
+    resetAllColors();
+    btnPersonDisabled(false);
 });
 
 // Click a name

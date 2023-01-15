@@ -96,6 +96,11 @@ body .hide {
 	text-align: center;
 }
 
+.progress-counter {
+	min-width: fit-content;
+	margin: 1rem;
+}
+
 .progress-counter h2 {
 	display: flex;
 	flex-direction: column;
