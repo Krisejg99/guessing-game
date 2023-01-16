@@ -31,13 +31,13 @@
     </div>
     
     <form class="start-game-form" id="startGameForm">
-        <button type="button" class="btn btn-danger" id="btnStartGame">Start Game</button>
+        <button type="button" class="basic-btn" id="btnStartGame">Start Game</button>
     </form>
 
     <form class="difficulty-form hide" id="difficultyForm">
-        <button type="button" class="btn btn-light" id="btnEasy" value="">Easy (10)</button>
-        <button type="button" class="btn btn-warning" id="btnMedium" value="">Medium (20)</button>
-        <button type="button" class="btn btn-danger" id="btnHard" value="">Hard (All)</button>
+        <button type="button" class="basic-btn" id="btnEasy" value="">Easy (10)</button>
+        <button type="button" class="basic-btn" id="btnMedium" value="">Medium (20)</button>
+        <button type="button" class="basic-btn" id="btnHard" value="">Hard (All)</button>
     </form>
     
     <div class="container hide" id="gameContainer">
@@ -46,23 +46,24 @@
             
         </div>
 
-        <button type="button" id="nextQuestionBtn" class="btn btn-warning nextQuestionBtn hide">Next</button>
-
         <form id="guessForm" class="guess-form">
-            <button type="button" class="btn btn-light" id="btnPerson1" data-answer-id="">Person1</button>
-            <button type="button" class="btn btn-light" id="btnPerson2" data-answer-id="">Person2</button>
-            <button type="button" class="btn btn-light" id="btnPerson3" data-answer-id="">Person3</button>
-            <button type="button" class="btn btn-light" id="btnPerson4" data-answer-id="">Person4</button>
+            <button type="button" class="basic-btn" id="btnPerson1" data-answer-id="">Person1</button>
+            <button type="button" class="basic-btn" id="btnPerson2" data-answer-id="">Person2</button>
+            <button type="button" class="basic-btn" id="btnPerson3" data-answer-id="">Person3</button>
+            <button type="button" class="basic-btn" id="btnPerson4" data-answer-id="">Person4</button>
         </form>
     </div>
+
+    <button type="button" id="nextQuestionBtn" class="basic-btn nextQuestionBtn hide">Next</button>
+
 
     <div class="end-screen">
 
         <h2 id="finalScore" class="finalScore"></h2>
 
         <form class="play-again-form">
-            <button type="button" class="btn btn-success hide" id="btnPlayAgain">Play Again!</button>
-            <button type="button" class="btn btn-danger hide" id="btnQuit">Quit</button>
+            <button type="button" class="basic-btn hide" id="btnPlayAgain">Play Again!</button>
+            <button type="button" class="basic-btn hide" id="btnQuit">Quit</button>
         </form>
 
         <div id="highscores" class="highscores hide">

@@ -37,7 +37,7 @@ let correctMovie;
 let currentRoundMovies = [];
 let highscores = [];
 let maxRounds;
-let newMovies = [...movies];
+let allMovies = [...movies];
 let points;
 let round;
 let usedMovies = [];
@@ -48,8 +48,7 @@ let usedMovies = [];
 
 
 const addSuccess = el => {
-    el.classList.add('btn-success');
-    el.classList.remove('btn-light');
+    el.classList.add('btn-correct');
 };
 
 const btnPersonDisabled = boolean => {
@@ -60,11 +59,9 @@ const btnPersonDisabled = boolean => {
 };
 
 const checkClickedButton = btn => {
-    btn.classList.remove('btn-light');
-
     (btn.textContent === correctMovie.name)
         ? updatePoints()
-        : btn.classList.add('btn-danger');
+        : btn.classList.add('btn-incorrect');
 };
 
 const checkRound = maxRounds => {
@@ -99,6 +96,12 @@ const createHighscore = () => {
     });
 };
 
+const displayCorrectImage = () => {
+    document.querySelector('#img-container').innerHTML = `
+        <img src="${correctMovie.mini_image}" alt="picture of ${correctMovie.name}" class="image guessingImage mt-0 img-fluid">
+    `;
+};
+
 const displayEl = el => {
     el.classList.remove('hide');
 };
@@ -115,19 +118,17 @@ const displayNames = movie => {
 };
 
 const getFirstMovie = () => {
-    shuffleArray(newMovies);
-    availableMovies = newMovies.filter(movie => !usedMovies.includes(movie));
+    shuffleArray(allMovies);
+    availableMovies = allMovies.filter(movie => !usedMovies.includes(movie));
     correctMovie = availableMovies[0];
     usedMovies.push(correctMovie);
     currentRoundMovies.push(correctMovie);
-    document.querySelector('#img-container').innerHTML = `
-        <img src="${correctMovie.mini_image}" alt="picture of ${correctMovie.name}" class="image guessingImage mt-0 img-fluid">
-    `;
+    return correctMovie;
 };
 
 const getThreeMovies = () => {
-    shuffleArray(newMovies);
-    newMovies.forEach(movie => {
+    shuffleArray(allMovies);
+    allMovies.forEach(movie => {
         if (currentRoundMovies.length < 4 && !currentRoundMovies.includes(movie)) {
             currentRoundMovies.push(movie);
         };
@@ -144,6 +145,7 @@ const newQuestion = () => {
     };
 
     getFirstMovie();
+    displayCorrectImage()
     getThreeMovies();
     shuffleArray(currentRoundMovies);
     displayNames(currentRoundMovies)
@@ -158,9 +160,8 @@ const resetAllColors = () => {
 };
 
 const resetColor = el => {
-    el.classList.add('btn-light');
-    el.classList.remove('btn-success');
-    el.classList.remove('btn-danger');
+    el.classList.remove('btn-correct');
+    el.classList.remove('btn-incorrect');
 };
 
 const resetStats = () => {
@@ -266,6 +267,7 @@ btnQuitEl.addEventListener('click', e => {
     hideEl(finalScoreEl);
     hideEl(btnPlayAgainEl);
     hideEl(btnQuitEl);
+    hideEl(nextQuestionBtnEl);
     hideEl(gameContainerEl);
     hideEl(progressStatsEl);
     displayEl(highscoresEl);
