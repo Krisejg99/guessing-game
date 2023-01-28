@@ -98,7 +98,7 @@ const createHighscore = () => {
 
 const displayCorrectImage = () => {
     document.querySelector('#img-container').innerHTML = `
-        <img src="${correctMovie.mini_image}" alt="picture of ${correctMovie.name}" class="image guessingImage mt-0 img-fluid">
+        <img src="${correctMovie.mini_image}" alt="picture of ${correctMovie.name}" class="image guessingImage img-fluid">
     `;
 };
 
@@ -186,8 +186,8 @@ const showCorrectAnswer = () => {
         addSuccess(btnPerson4El);
     };
     document.querySelector('#img-container').innerHTML = `
-        <img src="${correctMovie.mini_image}" alt="picture of ${correctMovie.name}" class="image mt-0 img-fluid">
-        <img src="${correctMovie.image}" alt="picture ${correctMovie.name}" class="image mt-0 img-fluid">
+        <img src="${correctMovie.mini_image}" alt="picture of ${correctMovie.name}" class="image img-fluid">
+        <img src="${correctMovie.image}" alt="picture ${correctMovie.name}" class="image img-fluid">
     `;
     displayEl(nextQuestionBtnEl)
 };
