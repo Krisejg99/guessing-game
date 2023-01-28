@@ -33,19 +33,15 @@ const titleEl = document.querySelector('#title');
 
 
 let currentRoundMovies = [];
-let highscores = [];
+
+let jsonHighscores = localStorage.getItem('highscores') ?? '[]';
+let highscores = JSON.parse(jsonHighscores);
+
 let maxRounds;
 let allMovies = [...movies];
 let points;
 let round;
 let usedMovies = [];
-
-
-/**********************************************************************************/
-/* LOCAL STORAGE */
-
-
-// const highscore = 
 
 
 /**********************************************************************************/
@@ -97,6 +93,8 @@ const createHighscore = () => {
             <li>${highscore.score}/${highscore.rounds}</li>
         `;
     });
+
+    localStorage.setItem('highscores', JSON.stringify(highscores));
 };
 
 const displayEl = el => {
@@ -315,7 +313,7 @@ nextQuestionBtnEl.addEventListener('click', () => {
 /* START */
 
 
-btnEasyEl.value = 10;
+btnEasyEl.value = 1;
 btnMediumEl.value = 20;
 btnHardEl.value = movies.length;
 
