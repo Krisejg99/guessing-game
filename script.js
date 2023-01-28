@@ -42,6 +42,13 @@ let usedMovies = [];
 
 
 /**********************************************************************************/
+/* LOCAL STORAGE */
+
+
+// const highscore = 
+
+
+/**********************************************************************************/
 /* FUNCTIONS */
 
 
@@ -80,8 +87,12 @@ const createHighscore = () => {
     );
 
     highscores.sort((a, b) => b.score - a.score);
-    let top10 = highscores.slice(0, 10)
-    top10.forEach(highscore => {
+
+    if (highscores.length > 10) {
+        highscores = highscores.slice(0, 10);
+    };
+
+    highscores.forEach(highscore => {
         highscoreListEl.innerHTML += `
             <li>${highscore.score}/${highscore.rounds}</li>
         `;
@@ -278,8 +289,6 @@ guessFormEl.addEventListener('click', e => {
     e.preventDefault();
 
     const correctMovie = getCorrectMovie();
-    console.log(correctMovie);
-
     usedMovies.push(correctMovie);
 
     if (e.target.tagName === 'BUTTON') {
