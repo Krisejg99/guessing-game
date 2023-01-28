@@ -32,8 +32,6 @@ const titleEl = document.querySelector('#title');
 /* VARIABLES */
 
 
-let availableMovies = [];
-let correctMovie;
 let currentRoundMovies = [];
 let highscores = [];
 let maxRounds;
@@ -56,12 +54,6 @@ const btnPersonDisabled = boolean => {
         = btnPerson2El.disabled
         = btnPerson3El.disabled
         = btnPerson4El.disabled = boolean;
-};
-
-const checkClickedButton = btn => {
-    (btn.textContent === correctMovie.name)
-        ? updatePoints()
-        : btn.classList.add('btn-incorrect');
 };
 
 const checkRound = maxRounds => {
@@ -96,12 +88,6 @@ const createHighscore = () => {
     });
 };
 
-const displayCorrectImage = () => {
-    document.querySelector('#img-container').innerHTML = `
-        <img src="${correctMovie.mini_image}" alt="picture of ${correctMovie.name}" class="image guessingImage img-fluid">
-    `;
-};
-
 const displayEl = el => {
     el.classList.remove('hide');
 };
@@ -117,22 +103,22 @@ const displayNames = movie => {
     btnPerson4El.dataset.answerId = movie[3].name;
 };
 
-const getFirstMovie = () => {
-    shuffleArray(allMovies);
-    availableMovies = allMovies.filter(movie => !usedMovies.includes(movie));
-    correctMovie = availableMovies[0];
-    usedMovies.push(correctMovie);
-    currentRoundMovies.push(correctMovie);
+const getCorrectMovie = () => {
+    const availableMoviesThisRound = allMovies.filter(movie => !usedMovies.includes(movie));
+    const correctMovie = availableMoviesThisRound[0];
     return correctMovie;
 };
 
-const getThreeMovies = () => {
-    shuffleArray(allMovies);
+const getThreeMovies = (correctMovie) => {
+    const threeMovies = [];
+
     allMovies.forEach(movie => {
-        if (currentRoundMovies.length < 4 && !currentRoundMovies.includes(movie)) {
-            currentRoundMovies.push(movie);
+        if (threeMovies.length < 3 && !threeMovies.includes(movie) && movie !== correctMovie) {
+            threeMovies.push(movie);
         };
     });
+
+    return threeMovies;
 };
 
 const hideEl = el => {
@@ -144,12 +130,21 @@ const newQuestion = () => {
         return;
     };
 
-    getFirstMovie();
-    displayCorrectImage()
-    getThreeMovies();
+    shuffleArray(allMovies);
+
+    const correctMovie = getCorrectMovie();
+    currentRoundMovies.push(correctMovie);
+
+    const threeMovies = getThreeMovies(correctMovie);
+    currentRoundMovies.push(...threeMovies);
+
+    document.querySelector('#img-container').innerHTML = `
+        <img src="${correctMovie.mini_image}" alt="picture of ${correctMovie.name}" class="image guessingImage img-fluid">
+    `;
+
     shuffleArray(currentRoundMovies);
     displayNames(currentRoundMovies)
-    updateRound();
+    updateRoundCounter();
 };
 
 const resetAllColors = () => {
@@ -172,7 +167,8 @@ const resetStats = () => {
     usedMovies = [];
 };
 
-const showCorrectAnswer = () => {
+const showCorrectAnswer = (correctMovie) => {
+
     if (btnPerson1El.dataset.answerId === correctMovie.name) {
         addSuccess(btnPerson1El);
     }
@@ -211,7 +207,7 @@ const updatePoints = () => {
     scoreEl.textContent = `${points}`;
 };
 
-const updateRound = () => {
+const updateRoundCounter = () => {
     round++;
     roundEl.textContent = `${round} / ${maxRounds}`;
 };
@@ -281,9 +277,17 @@ btnQuitEl.addEventListener('click', e => {
 guessFormEl.addEventListener('click', e => {
     e.preventDefault();
 
+    const correctMovie = getCorrectMovie();
+    console.log(correctMovie);
+
+    usedMovies.push(correctMovie);
+
     if (e.target.tagName === 'BUTTON') {
-        showCorrectAnswer();
-        checkClickedButton(e.target);
+        showCorrectAnswer(correctMovie);
+
+        (e.target.textContent === correctMovie.name)
+            ? updatePoints()
+            : e.target.classList.add('btn-incorrect');
         btnPersonDisabled(true);
     };
 });
