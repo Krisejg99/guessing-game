@@ -4,6 +4,7 @@
 /* QUERY SELECTORS */
 
 
+const btnclearHighscoreEl = document.querySelector('#btnClearHighscore');
 const btnEasyEl = document.querySelector('#btnEasy');
 const btnHardEl = document.querySelector('#btnHard');
 const btnMediumEl = document.querySelector('#btnMedium');
@@ -33,6 +34,7 @@ const titleEl = document.querySelector('#title');
 
 
 let currentRoundMovies = [];
+
 
 let jsonHighscores = localStorage.getItem('highscores') ?? '[]';
 let highscores = JSON.parse(jsonHighscores);
@@ -66,6 +68,7 @@ const checkRound = maxRounds => {
         hideEl(progressStatsEl);
         displayEl(highscoresEl);
         displayEl(btnPlayAgainEl);
+        displayEl(btnPlayAgainEl);
         displayEl(titleEl);
         displayEl(finalScoreEl);
         showFinalScore();
@@ -88,14 +91,27 @@ const createHighscore = () => {
         highscores = highscores.slice(0, 10);
     };
 
+    localStorage.setItem('highscores', JSON.stringify(highscores));
+    renderHighscores()
+};
+
+const renderHighscores = () => {
+    highscoreListEl.innerHTML = '';
     highscores.forEach(highscore => {
         highscoreListEl.innerHTML += `
             <li>${highscore.score}/${highscore.rounds}</li>
         `;
     });
+}
 
-    localStorage.setItem('highscores', JSON.stringify(highscores));
-};
+btnclearHighscoreEl.addEventListener('click', e => {
+    e.preventDefault();
+
+    localStorage.removeItem('highscores');
+    jsonHighscores = localStorage.getItem('highscores') ?? '[]';
+    highscores = JSON.parse(jsonHighscores);
+    renderHighscores();
+})
 
 const displayEl = el => {
     el.classList.remove('hide');
